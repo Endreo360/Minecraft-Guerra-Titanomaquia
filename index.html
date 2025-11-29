@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minecraft Guerra: A Titanomaquia</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Metamorphous&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -80,10 +78,6 @@
             text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
         }
         
-        .sun-glow {
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.15);
-        }
-        
         .icon-placeholder {
             width: 100%;
             height: 10rem; /* h-40 equiv */
@@ -94,14 +88,13 @@
         }
         
         .icon-placeholder span {
-            font-size: 6rem; /* text-9xl approx */
+            font-size: 6rem;
             opacity: 0.8;
         }
     </style>
 </head>
 <body class="bg-bedrock text-gray-200 font-body overflow-x-hidden selection:bg-gold selection:text-black">
 
-    <!-- Navigation -->
     <nav class="fixed top-0 w-full z-40 bg-obsidian/90 backdrop-blur-md border-b border-golddim/30">
         <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center gap-2">
@@ -119,11 +112,10 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <header class="relative h-screen flex items-center justify-center overflow-hidden bg-obsidian">
-        <div class="absolute inset-0 z-0 opacity-20">
-             <!-- Using a subtle pattern instead of image -->
-             <div class="w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-800 via-bedrock to-black"></div>
+        <div class="absolute inset-0 z-0">
+            <img src="img/atenas.jpg" alt="Greek Minecraft Landscape" class="w-full h-full object-cover opacity-50 grayscale brightness-75">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-bedrock/60 to-bedrock"></div>
         </div>
         
         <div class="relative z-10 text-center px-4 max-w-4xl fade-in-section">
@@ -143,9 +135,7 @@
         </div>
     </header>
 
-    <!-- I. O Ciclo do Sol (Horários) -->
     <section id="ciclo" class="py-24 bg-stone-900 border-b border-stone-800 fade-in-section relative overflow-hidden">
-        <!-- Intense Shine Background -->
         <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gold/10 via-stone-900 to-stone-900 pointer-events-none"></div>
         
         <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
@@ -157,7 +147,6 @@
             </p>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <!-- Weekdays -->
                 <div class="bg-black/60 border-2 border-emerald-900 p-8 rounded-xl shadow-[0_0_30px_rgba(16,185,129,0.1)] hover:border-emerald-400 hover:shadow-[0_0_40px_rgba(16,185,129,0.3)] transition-all duration-500 group relative overflow-hidden transform hover:-translate-y-1">
                     <div class="absolute inset-0 bg-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     <h3 class="text-2xl font-heading text-emerald-400 mb-4 group-hover:text-emerald-300 flex items-center justify-center gap-3">
@@ -168,7 +157,6 @@
                     </div>
                 </div>
 
-                <!-- Weekends -->
                 <div class="bg-black/60 border-2 border-red-900 p-8 rounded-xl shadow-[0_0_30px_rgba(239,68,68,0.1)] hover:border-red-500 hover:shadow-[0_0_40px_rgba(239,68,68,0.3)] transition-all duration-500 group relative overflow-hidden transform hover:-translate-y-1">
                     <div class="absolute inset-0 bg-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     <h3 class="text-2xl font-heading text-red-500 mb-4 group-hover:text-red-400 flex items-center justify-center gap-3">
@@ -182,7 +170,6 @@
         </div>
     </section>
 
-    <!-- II. Clãs & III. End Crystal -->
     <section id="clas" class="py-20 px-4 relative bg-Greek-pattern fade-in-section">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-16">
@@ -193,7 +180,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Card Politica -->
                 <div class="bg-obsidian border border-stone-700 p-8 rounded-lg relative overflow-hidden group card-hover transition-all duration-300">
                     <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
                         <span class="material-symbols-outlined text-9xl">gavel</span>
@@ -215,16 +201,14 @@
                     </ul>
                 </div>
 
-                <!-- Card End Crystal -->
                 <div class="bg-obsidian border border-stone-700 p-8 rounded-lg relative overflow-hidden group card-hover transition-all duration-300">
-                    <div class="absolute inset-0 z-0 opacity-20 bg-purple-900"></div>
+                    <div class="absolute inset-0">
+                        <img src="img/end-crystal.jpg" alt="End Crystal Altar" class="w-full h-full object-cover opacity-40 group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/90 to-transparent z-0"></div>
+                    </div>
                     <div class="relative z-10">
-                        <!-- Símbolo no lugar da imagem -->
-                        <div class="flex justify-center mb-6 text-purple-400">
-                            <span class="material-symbols-outlined text-8xl drop-shadow-[0_0_15px_rgba(192,132,252,0.8)] animate-pulse-slow">diamond</span>
-                        </div>
-                        <h3 class="text-2xl font-heading text-purple-400 mb-4 flex items-center justify-center gap-2">
-                            III. O Coração (End Crystal)
+                        <h3 class="text-2xl font-heading text-purple-400 mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined">diamond</span> III. O Coração (End Crystal)
                         </h3>
                         <ul class="space-y-3 text-gray-300 text-sm">
                             <li class="border-l-2 border-purple-500 pl-3"><strong>O Altar:</strong> Centro da base, protegido por vidro da cor da equipe.</li>
@@ -238,7 +222,6 @@
         </div>
     </section>
 
-    <!-- IV. Economia (Interactive) -->
     <section id="economia" class="py-20 bg-stone-900 border-y border-stone-800 fade-in-section">
         <div class="max-w-7xl mx-auto px-4">
             <div class="text-center mb-8">
@@ -247,7 +230,6 @@
                 <p class="text-gray-400 mt-2">Recursos infinitos destroem o comércio. Escolha seu destino.</p>
             </div>
 
-            <!-- Sharing Rule -->
             <div class="bg-emerald-900/20 border border-emerald-500/30 p-4 rounded-lg text-center max-w-3xl mx-auto mb-12">
                 <p class="text-emerald-300 font-bold flex items-center justify-center gap-2">
                     <span class="material-symbols-outlined">sync_alt</span> Regra da Partilha
@@ -257,27 +239,31 @@
                 </p>
             </div>
 
-            <!-- The 4 Paths Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 
-                <!-- Option 1: Iron -->
                 <div id="opt-iron" class="bg-obsidian border border-stone-600 hover:border-gold p-6 rounded-lg cursor-pointer transition-all group relative overflow-hidden flex flex-col h-full" onclick="selectFarm('iron')">
-                    <div class="icon-placeholder mb-4 text-gray-500 group-hover:text-gray-300 transition-colors h-24">
-                        <span class="material-symbols-outlined text-6xl">shield</span>
+                    <div class="absolute inset-0 z-0">
+                        <img src="img/farm-de-ferro.jpg" alt="Iron Golem Farm" class="w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent"></div>
                     </div>
-                    <h4 class="text-xl font-heading text-white group-hover:text-gold mb-2 flex items-center justify-center gap-2 relative z-10">
-                        Caminho do Aço
-                    </h4>
-                    <p class="text-xs text-gray-500 uppercase tracking-widest text-center mb-4">Farm de Ferro</p>
-                    <div class="text-sm text-gray-400 text-center relative z-10 flex-grow">
-                        Ferro infinito para armaduras, ferramentas e pistões.
-                    </div>
-                    <div class="mt-4 flex justify-center">
-                         <span class="check-icon opacity-0 text-emerald-500 material-symbols-outlined text-3xl">check_circle</span>
+                    
+                    <div class="relative z-10 flex flex-col h-full items-center text-center">
+                         <div class="mb-4 text-gray-300 group-hover:text-white transition-colors h-24 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-6xl drop-shadow-lg">shield</span>
+                        </div>
+                        <h4 class="text-xl font-heading text-white group-hover:text-gold mb-2 flex items-center justify-center gap-2">
+                            Caminho do Aço
+                        </h4>
+                        <p class="text-xs text-gray-400 uppercase tracking-widest mb-4">Farm de Ferro</p>
+                        <div class="text-sm text-gray-300 flex-grow">
+                            Ferro infinito para armaduras, ferramentas e pistões.
+                        </div>
+                        <div class="mt-4">
+                             <span class="check-icon opacity-0 text-emerald-500 material-symbols-outlined text-3xl">check_circle</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Option 2: Gold -->
                 <div id="opt-gold" class="bg-obsidian border border-stone-600 hover:border-gold p-6 rounded-lg cursor-pointer transition-all group relative overflow-hidden flex flex-col h-full" onclick="selectFarm('gold')">
                     <div class="icon-placeholder mb-4 text-yellow-700 group-hover:text-yellow-500 transition-colors h-24">
                         <span class="material-symbols-outlined text-6xl">payments</span>
@@ -294,7 +280,6 @@
                     </div>
                 </div>
 
-                <!-- Option 3: Raid -->
                 <div id="opt-raid" class="bg-obsidian border border-stone-600 hover:border-gold p-6 rounded-lg cursor-pointer transition-all group relative overflow-hidden flex flex-col h-full" onclick="selectFarm('raid')">
                     <div class="icon-placeholder mb-4 text-red-800 group-hover:text-red-600 transition-colors h-24">
                         <span class="material-symbols-outlined text-6xl">local_fire_department</span>
@@ -311,7 +296,6 @@
                     </div>
                 </div>
 
-                <!-- Option 4: XP -->
                 <div id="opt-xp" class="bg-obsidian border border-stone-600 hover:border-gold p-6 rounded-lg cursor-pointer transition-all group relative overflow-hidden flex flex-col h-full" onclick="selectFarm('xp')">
                     <div class="icon-placeholder mb-4 text-blue-800 group-hover:text-blue-500 transition-colors h-24">
                         <span class="material-symbols-outlined text-6xl">bolt</span>
@@ -331,17 +315,14 @@
             </div>
             
             <div id="economy-msg" class="text-center mt-8 font-heading text-xl text-gold opacity-0 transition-opacity min-h-[2rem]">
-                <!-- Message will appear here -->
-            </div>
+                </div>
         </div>
     </section>
 
-    <!-- V. Saga Timeline -->
     <section id="saga" class="py-20 bg-bedrock relative overflow-hidden fade-in-section">
         <div class="max-w-5xl mx-auto px-4">
             <h2 class="text-4xl font-heading text-center text-white mb-8">V. A Saga dos Deuses</h2>
             
-            <!-- DECREE WARNING -->
             <div class="bg-red-950/40 border-2 border-red-600 p-6 rounded-lg mb-16 text-center shadow-[0_0_20px_rgba(220,38,38,0.3)]">
                 <h3 class="text-red-500 font-heading text-2xl mb-4 flex items-center justify-center gap-2">
                     <span class="material-symbols-outlined">warning</span> DECRETO SUPREMO SOBRE TITANS
@@ -355,13 +336,14 @@
             </div>
 
             <div class="relative border-l-2 border-stone-800 ml-4 md:ml-1/2 space-y-20">
-                <!-- Chapter 1 -->
                 <div class="relative md:w-1/2 md:ml-auto pl-8 md:pl-12 fade-in-section">
                     <div class="absolute top-0 -left-3 md:-left-3 w-6 h-6 rounded-full bg-mythicblue border-4 border-stone-800"></div>
                     <div class="bg-obsidian border border-blue-900 rounded-lg overflow-hidden shadow-lg shadow-blue-900/20 card-hover transition-all">
-                        <div class="icon-placeholder bg-blue-900/20 text-blue-400 h-40">
-                            <span class="material-symbols-outlined text-6xl">water_drop</span>
+                        <div class="relative h-40">
+                             <img src="img/guardian.jpg" alt="Elder Guardian Titan" class="w-full h-full object-cover opacity-70">
+                             <div class="absolute inset-0 bg-blue-900/30"></div>
                         </div>
+                        
                         <div class="p-6">
                             <h3 class="text-blue-400 font-heading text-xl mb-1">Capítulo 1: A Fúria de Poseidon</h3>
                             <div class="space-y-2 mt-4">
@@ -381,13 +363,14 @@
                     </div>
                 </div>
 
-                <!-- Chapter 2 -->
                 <div class="relative md:w-1/2 md:mr-auto pl-8 md:pr-12 md:pl-0 md:text-right fade-in-section">
                     <div class="absolute top-0 -left-3 md:left-auto md:-right-3 w-6 h-6 rounded-full bg-red-900 border-4 border-stone-800"></div>
                     <div class="bg-obsidian border border-red-900 rounded-lg overflow-hidden shadow-lg shadow-red-900/20 card-hover transition-all">
-                        <div class="icon-placeholder bg-red-900/20 text-red-500 h-40">
-                            <span class="material-symbols-outlined text-6xl">skull</span>
+                        <div class="relative h-40">
+                             <img src="img/wither.jpg" alt="Wither Titan" class="w-full h-full object-cover opacity-70">
+                             <div class="absolute inset-0 bg-red-900/30"></div>
                         </div>
+
                         <div class="p-6">
                             <h3 class="text-red-500 font-heading text-xl mb-1">Capítulo 2: O Chamado de Hades</h3>
                             <div class="space-y-2 mt-4">
@@ -406,13 +389,14 @@
                     </div>
                 </div>
 
-                <!-- Chapter 3 -->
                 <div class="relative md:w-1/2 md:ml-auto pl-8 md:pl-12 fade-in-section">
                     <div class="absolute top-0 -left-3 md:-left-3 w-6 h-6 rounded-full bg-white border-4 border-stone-800"></div>
                     <div class="bg-obsidian border border-gray-600 rounded-lg overflow-hidden shadow-lg shadow-white/10 card-hover transition-all">
-                        <div class="icon-placeholder bg-gray-800 text-white h-40">
-                            <span class="material-symbols-outlined text-6xl">bolt</span>
+                         <div class="relative h-40">
+                             <img src="img/ender-dragon.jpg" alt="Ender Dragon Titan" class="w-full h-full object-cover opacity-70">
+                             <div class="absolute inset-0 bg-gray-900/30"></div>
                         </div>
+
                         <div class="p-6">
                             <h3 class="text-white font-heading text-xl mb-1">Capítulo 3: Os Céus de Zeus</h3>
                             <div class="space-y-2 mt-4">
@@ -431,13 +415,14 @@
                     </div>
                 </div>
 
-                <!-- Chapter 4 -->
                 <div class="relative md:w-1/2 md:mr-auto pl-8 md:pr-12 md:pl-0 md:text-right fade-in-section">
                     <div class="absolute top-0 -left-3 md:left-auto md:-right-3 w-6 h-6 rounded-full bg-teal-900 border-4 border-stone-800"></div>
                     <div class="bg-obsidian border border-teal-900 rounded-lg overflow-hidden shadow-lg shadow-teal-900/20 card-hover transition-all">
-                        <div class="icon-placeholder bg-teal-900/20 text-teal-500 h-40">
-                            <span class="material-symbols-outlined text-6xl">visibility</span>
+                         <div class="relative h-40">
+                             <img src="img/warden.jpg" alt="Warden Titan" class="w-full h-full object-cover opacity-70">
+                             <div class="absolute inset-0 bg-teal-900/30"></div>
                         </div>
+                        
                         <div class="p-6">
                             <h3 class="text-teal-500 font-heading text-xl mb-1">Capítulo 4: O Tártaro</h3>
                             <div class="space-y-2 mt-4">
@@ -456,11 +441,10 @@
                     </div>
                 </div>
 
-                <!-- Final Chapter -->
                 <div class="relative w-full text-center mt-24 fade-in-section">
                     <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-gold border-4 border-white animate-pulse"></div>
                     <div class="max-w-3xl mx-auto bg-gradient-to-b from-red-950 to-black border-2 border-gold p-8 rounded-xl relative overflow-hidden">
-                        <div class="absolute inset-0 bg-transparent opacity-10"></div>
+                        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-10"></div>
                         <h3 class="text-4xl font-heading text-gold mb-2 uppercase">Capítulo Final: A Titanomaquia</h3>
                         <p class="text-red-400 font-bold mb-6">GUERRA TOTAL // ELIMINAÇÃO</p>
                         <p class="text-gray-300 mb-4">Os vidros dos Cristais tornam-se quebráveis. O último Clã com o cristal intacto leva o Grande Prêmio.</p>
@@ -473,13 +457,11 @@
         </div>
     </section>
 
-    <!-- VI. Códigos de Guerra (Interactive Toggle) -->
     <section id="leis" class="py-20 bg-stone-900 transition-colors duration-700 fade-in-section">
         <div class="max-w-4xl mx-auto px-4 text-center">
             <h2 class="text-4xl font-heading text-white mb-8">VI. Códigos de Guerra</h2>
             <p class="text-gray-400 text-sm mb-8">A desobediência às regras resultará na ira imediata do Supremo Tribunal dos Quatro.</p>
             
-            <!-- Toggle Switch -->
             <div class="flex justify-center items-center gap-6 mb-12">
                 <span id="peace-label" class="text-emerald-400 font-bold transition-opacity">DIAS DE PAZ</span>
                 <button id="mode-toggle" onclick="toggleWarMode()" class="relative w-20 h-10 bg-gray-700 rounded-full border-2 border-gray-600 focus:outline-none shadow-inner transition-colors duration-500">
@@ -490,9 +472,7 @@
                 <span id="purge-label" class="text-red-500 font-bold transition-opacity opacity-30">O EXPURGO</span>
             </div>
 
-            <!-- Content Container -->
             <div id="rules-container" class="bg-obsidian border border-stone-600 p-8 rounded-lg min-h-[300px] transition-all duration-500 relative overflow-hidden">
-                <!-- Background visual -->
                 <div id="rules-bg" class="absolute inset-0 opacity-10 transition-colors duration-500 bg-emerald-900"></div>
                 
                 <div class="relative z-10">
@@ -522,7 +502,6 @@
         </div>
     </section>
 
-    <!-- VII. O Tesouro Visual -->
     <section id="tesouro" class="py-20 relative overflow-hidden bg-bedrock fade-in-section">
         <div class="absolute inset-0 bg-gold/5"></div>
         <div class="max-w-6xl mx-auto px-4 text-center relative z-10">
@@ -530,7 +509,6 @@
 
             <div class="flex flex-col md:flex-row justify-center items-center gap-16">
                 
-                <!-- Base Reward - The Foundation -->
                 <div class="relative group cursor-default">
                     <div class="absolute inset-0 bg-gradient-to-t from-gold/20 to-transparent blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
                     <div class="relative z-10 flex flex-col items-center transform transition-transform duration-300 group-hover:scale-105">
@@ -542,10 +520,8 @@
                     </div>
                 </div>
 
-                <!-- Plus Sign -->
                 <div class="text-gold text-4xl font-bold opacity-50">+</div>
 
-                <!-- Glory Bonus - The Pile -->
                 <div class="relative group cursor-default">
                     <div class="absolute inset-0 bg-gradient-to-t from-gold/30 to-transparent blur-xl opacity-40 group-hover:opacity-60 transition-opacity"></div>
                     <div class="relative z-10 flex flex-col items-center transform transition-transform duration-300 group-hover:scale-105">
@@ -560,10 +536,8 @@
                     </div>
                 </div>
 
-                <!-- Equals Sign -->
                 <div class="text-gold text-4xl font-bold opacity-50">=</div>
 
-                <!-- Total - The Crown -->
                 <div class="relative group cursor-default">
                     <div class="absolute inset-0 bg-gradient-to-t from-yellow-500/40 to-transparent blur-2xl opacity-50 group-hover:opacity-80 transition-opacity"></div>
                     <div class="relative z-10 flex flex-col items-center transform transition-transform duration-300 group-hover:scale-110">
@@ -583,9 +557,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="bg-black py-16 border-t border-stone-800 text-center relative overflow-hidden">
-        <!-- Background Glow -->
         <div class="absolute inset-0 bg-gradient-to-t from-gold/10 to-transparent opacity-50"></div>
         
         <div class="relative z-10">
@@ -600,7 +572,6 @@
         </div>
     </footer>
 
-    <!-- Logic Script -->
     <script>
         // --- 0. EXPORT FUNCTIONALITY ---
         function downloadPage() {
@@ -684,10 +655,6 @@
             const pvpIcon = document.getElementById('pvp-icon');
             const baseIcon = document.getElementById('base-icon');
 
-            // Labels
-            const peaceLabel = document.getElementById('peace-label');
-            const purgeLabel = document.getElementById('purge-label');
-
             if (isPurgeMode) {
                 btn.classList.replace('bg-gray-700', 'bg-red-900');
                 circle.classList.add('translate-x-10');
@@ -696,8 +663,6 @@
                 icon.classList.remove('text-black');
                 if(bg) bg.classList.replace('bg-emerald-900', 'bg-red-900');
                 if(container) container.classList.replace('border-stone-600', 'border-red-600');
-                if(peaceLabel) peaceLabel.classList.add('opacity-30');
-                if(purgeLabel) purgeLabel.classList.remove('opacity-30');
                 
                 if(title) {
                     title.innerText = "O Expurgo (Sáb/Dom/Feriados)";
@@ -719,8 +684,6 @@
                 icon.classList.add('text-black');
                 if(bg) bg.classList.replace('bg-red-900', 'bg-emerald-900');
                 if(container) container.classList.replace('border-red-600', 'border-stone-600');
-                if(peaceLabel) peaceLabel.classList.remove('opacity-30');
-                if(purgeLabel) purgeLabel.classList.add('opacity-30');
                 
                 if(title) {
                     title.innerText = "Segunda a Sexta";
