@@ -618,16 +618,22 @@
                     </div>
                 </div>
 
-                <div class="bg-bedrock/50 border border-stone-700 p-8 rounded-lg overflow-hidden relative min-h-[500px]">
+                <div class="bg-bedrock/50 border border-stone-700 p-8 rounded-lg overflow-hidden relative min-h-[500px] flex flex-col">
                     <h3 class="text-2xl font-heading text-white mb-6 flex items-center gap-2">
                         <span class="material-symbols-outlined">flag</span> Clãs Registrados
                         <span id="clan-count" class="text-sm text-gray-400 ml-auto font-body">(0/4)</span>
                     </h3>
                     
-                    <div id="clan-list" class="space-y-6 overflow-y-auto max-h-[600px] pr-2">
+                    <div id="clan-list" class="space-y-6 overflow-y-auto max-h-[600px] pr-2 flex-grow">
                         <div class="text-center text-gray-500 mt-20 italic" id="empty-state">
                             Nenhum clã registrado ainda.<br>Seja o primeiro a marcar território.
                         </div>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-white/5 text-center">
+                        <p class="text-[10px] text-gray-600 uppercase tracking-widest hover:text-red-500 transition-colors cursor-help" title="Use esta senha ao clicar na lixeira para deletar um clã">
+                            <span class="material-symbols-outlined text-[10px] align-middle">key</span> Senha de Admin: <span class="font-bold">TEBAS</span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -1225,7 +1231,8 @@
                 data.forEach(clan => {
                     state.registeredClans.push(clan);
                     state.takenEconomies.add(clan.economy_type);
-                    updateClanListUi(clan.name, clan.motto, clan.color, clan.theme, clan.leader, clan.coleader, clan.members, clan.economy);
+                    // Passando o ID para permitir deleção
+                    updateClanListUi(clan.name, clan.motto, clan.color, clan.theme, clan.leader, clan.coleader, clan.members, clan.economy, clan.id);
                     updateEconomyUi(clan.economy_type);
                 });
             } else {
@@ -1310,7 +1317,37 @@
             }
         }
 
-        function updateClanListUi(name, motto, color, themeKey, leader, coleader, membersStr, economyName) {
+        // --- FUNÇÃO DE DELETAR (NOVA) ---
+        async function deleteClan(id) {
+            // 1. Pergunta a senha para evitar que qualquer um delete
+            const password = prompt("⚠️ ÁREA RESTRITA ⚠️\nDigite a senha de TEBAS para apagar este registro:");
+            
+            // 2. Defina sua senha aqui
+            if (password !== "TEBAS") {
+                if (password) alert("Senha incorreta! Apenas Tebas tem esse poder.");
+                return;
+            }
+
+            // 3. Confirmação final
+            if (!confirm("Tem certeza absoluta? Isso apagará o clã da história para sempre.")) {
+                return;
+            }
+
+            // 4. Manda o comando para o Supabase
+            const { error } = await supabase
+                .from('clans')
+                .delete()
+                .eq('id', id);
+
+            if (error) {
+                alert("Erro ao deletar: " + error.message);
+            } else {
+                alert("Clã removido da história.");
+                fetchClans(); // Recarrega a lista
+            }
+        }
+
+        function updateClanListUi(name, motto, color, themeKey, leader, coleader, membersStr, economyName, id) {
             const theme = clanThemes[themeKey];
             const clanList = document.getElementById('clan-list');
             const emptyState = document.getElementById('empty-state');
@@ -1337,6 +1374,10 @@
                     <span class="text-9xl font-serif text-white select-none">${theme.symbol}</span>
                 </div>
                 
+                <button onclick="deleteClan(${id})" class="absolute top-2 left-2 z-30 text-gray-600 hover:text-red-500 transition-colors bg-black/50 p-1 rounded-full hover:bg-black" title="Excluir Clã">
+                    <span class="material-symbols-outlined text-sm">delete</span>
+                </button>
+
                 <div class="absolute top-2 right-2 bg-black/60 rounded-full p-2 border border-white/10 shadow-lg z-20">
                      <span class="material-symbols-outlined text-xl" style="color: ${color}; text-shadow: 0 0 10px ${color}">diamond</span>
                 </div>
