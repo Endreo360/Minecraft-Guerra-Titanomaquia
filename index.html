@@ -132,6 +132,11 @@
             background-color: #1a1a1a;
             color: #e5e7eb;
         }
+        input[type="color"] {
+            height: 50px;
+            padding: 0.2rem;
+            cursor: pointer;
+        }
         
         .farm-taken {
             opacity: 0.5;
@@ -155,7 +160,6 @@
             border: 2px solid rgba(255, 255, 255, 0.1);
             position: relative;
             transition: transform 0.1s, border-color 0.1s;
-            /* Simulation of glass texture with css */
             background-image: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 20%, rgba(255,255,255,0) 80%, rgba(255,255,255,0.1) 100%);
         }
         .glass-option:hover {
@@ -168,6 +172,13 @@
             box-shadow: 0 0 10px #FFD700;
             transform: scale(1.1);
             z-index: 10;
+        }
+        .glass-option.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            filter: grayscale(100%);
+            transform: none;
+            border-color: #444;
         }
         .glass-shine {
             position: absolute;
@@ -185,6 +196,21 @@
             height: 2px;
             background: rgba(255, 255, 255, 0.4);
         }
+        
+        /* Election Progress Bar */
+        .vote-bar-bg {
+            width: 100%;
+            height: 8px;
+            background-color: #1a1a1a;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .vote-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #B8860B, #FFD700);
+            transition: width 0.5s ease-out;
+        }
     </style>
 </head>
 <body class="bg-bedrock text-gray-200 font-body overflow-x-hidden selection:bg-gold selection:text-black">
@@ -198,9 +224,10 @@
             <div class="hidden md:flex gap-6 text-sm font-semibold tracking-widest text-gray-400">
                 <a href="#introducao" class="hover:text-gold transition-colors">GUIA</a>
                 <a href="#ciclo" class="hover:text-gold transition-colors">HORÁRIOS</a>
+                <a href="#eleicao" class="hover:text-gold transition-colors text-gold">ELEIÇÃO</a>
                 <a href="#clas" class="hover:text-gold transition-colors">CLÃS</a>
                 <a href="#economia" class="hover:text-gold transition-colors">ECONOMIA</a>
-                <a href="#registro" class="hover:text-gold transition-colors text-gold">REGISTRO</a>
+                <a href="#registro" class="hover:text-gold transition-colors">REGISTRO</a>
                 <a href="#saga" class="hover:text-gold transition-colors">SAGA</a>
                 <a href="#tesouro" class="text-gold hover:text-white transition-colors border border-gold/30 px-2 py-1 rounded bg-gold/10">TESOURO</a>
             </div>
@@ -353,13 +380,95 @@
         </div>
     </section>
 
+    <section id="eleicao" class="py-20 bg-stone-900 border-b border-stone-800 fade-in-section relative">
+         <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/black-scales.png')] opacity-20"></div>
+         <div class="max-w-7xl mx-auto px-4 relative z-10">
+             <div class="text-center mb-16">
+                <span class="material-symbols-outlined text-6xl text-purple-500 mb-4">how_to_vote</span>
+                <h2 class="text-4xl font-heading text-white mb-4">A Ascensão dos Reis</h2>
+                <div class="h-1 w-24 bg-purple-500 mx-auto"></div>
+                <p class="mt-4 text-gray-400">O trono não é dado, é conquistado pelo povo. Escolha os 4 pilares de Tebas.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-1 bg-obsidian border border-purple-500/30 p-6 rounded-lg shadow-lg h-fit sticky top-24">
+                    <h3 class="text-xl font-heading text-purple-400 mb-4">Sua Voz</h3>
+                    
+                    <div id="election-status-box" class="mb-6 p-3 bg-black/40 rounded border border-stone-700 text-center text-sm">
+                        Status: <span id="election-status-text" class="text-white font-bold">Carregando...</span>
+                    </div>
+
+                    <div id="candidate-form-box" class="space-y-3 hidden">
+                        <label class="block text-gray-400 text-xs font-bold uppercase">Deseja Liderar?</label>
+                        <input type="text" id="new-candidate-name" class="input-mythic" placeholder="Seu Nick">
+                        
+                        <label class="block text-gray-400 text-xs font-bold uppercase mt-2">Lema de Campanha:</label>
+                        <input type="text" id="candidate-slogan" class="input-mythic" placeholder="Ex: Ouro para todos!" maxlength="50">
+                        
+                        <label class="block text-gray-400 text-xs font-bold uppercase mt-2">Estratégia de Farm:</label>
+                        <select id="candidate-farm" class="input-mythic cursor-pointer">
+                            <option value="Ferro">Foco em Ferro</option>
+                            <option value="Ouro">Foco em Ouro</option>
+                            <option value="Raid">Foco em Raid</option>
+                            <option value="XP">Foco em XP</option>
+                        </select>
+
+                        <button id="btn-candidatar" onclick="registerCandidateForElection()" class="w-full py-3 bg-purple-900 hover:bg-purple-700 border border-purple-500 text-white font-bold uppercase tracking-widest text-sm transition-all mt-2">
+                            Candidatar-se
+                        </button>
+                    </div>
+
+                    <div id="voter-identity-box" class="hidden space-y-4">
+                        <div>
+                            <label class="block text-gray-400 text-xs font-bold mb-2 uppercase">Seu Identificador:</label>
+                            <input type="text" id="voter-name" class="input-mythic" placeholder="Seu Nick (Obrigatório)">
+                        </div>
+                        
+                        <div class="bg-stone-800/50 p-4 rounded border border-stone-600 text-center">
+                             <span class="block text-xs text-gray-400 uppercase mb-1">Seus Escolhidos</span>
+                             <span class="text-2xl font-bold text-gold" id="selected-count-display">0</span>
+                             <span class="text-sm text-gray-400">/ 4</span>
+                        </div>
+
+                        <button id="confirm-vote-btn" onclick="submitMultiVote()" class="w-full py-3 bg-emerald-800 hover:bg-emerald-600 border border-emerald-500 text-white font-bold uppercase tracking-widest text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                            Confirmar Votos
+                        </button>
+                        
+                        <p class="text-[10px] text-gray-500 text-center italic mt-2">* Selecione exatamente 4 candidatos para validar.</p>
+
+                        <button onclick="revealResults()" class="w-full py-2 bg-stone-800 hover:bg-red-900 border border-stone-600 text-xs text-gray-400 hover:text-white font-bold uppercase tracking-widest transition-all mt-4">
+                            <span class="material-symbols-outlined align-middle text-sm mr-1">visibility</span> 
+                            Revelar Resultados (Admin)
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 bg-stone-800/50 border border-stone-700 p-6 rounded-lg min-h-[400px]">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-heading text-white" id="candidates-title">Candidatos ao Trono</h3>
+                        <span class="text-sm text-gray-400" id="candidate-count-display">0 Candidatos</span>
+                    </div>
+
+                    <div id="acclamation-msg" class="hidden mb-4 p-4 bg-emerald-900/30 border border-emerald-500/30 rounded text-emerald-200 text-sm text-center">
+                        <span class="material-symbols-outlined align-middle mr-2">verified</span>
+                        Poucos candidatos. Estes guerreiros assumirão o trono por Aclamação Automática se não houver oposição.
+                    </div>
+
+                    <div id="candidates-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="text-gray-500 italic col-span-2 text-center py-10">Carregando candidatos...</div>
+                    </div>
+                </div>
+            </div>
+         </div>
+    </section>
+
     <section id="clas" class="py-20 px-4 relative bg-Greek-pattern fade-in-section">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-16">
                 <span class="material-symbols-outlined text-6xl text-gold mb-4">groups</span>
                 <h2 class="text-4xl font-heading text-white mb-4">II. A Estrutura dos Clãs</h2>
                 <div class="h-1 w-24 bg-gold mx-auto"></div>
-                <p class="mt-4 text-gray-400">O mundo é regido por 4 Cristais Primordiais.</p>
+                <p class="mt-4 text-gray-400">Regidos por 4 Cristais Primordiais, os Clãs são a alma da Titanomaquia.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -367,19 +476,23 @@
                     <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
                         <span class="material-symbols-outlined text-9xl">gavel</span>
                     </div>
-                    <h3 class="text-2xl font-heading text-gold mb-4">Regras & Tribunal</h3>
+                    <h3 class="text-2xl font-heading text-gold mb-4">Hierarquia & Identidade</h3>
                     <ul class="space-y-4 text-gray-300">
                         <li class="flex items-start gap-3">
-                            <span class="material-symbols-outlined text-gold shrink-0">person</span>
-                            <span><strong>Composição:</strong> Limite de 4 Clãs. Mínimo de 2, Máximo de 6 guerreiros cada.</span>
+                            <span class="material-symbols-outlined text-gold shrink-0">palette</span>
+                            <span><strong>Cores Únicas:</strong> Cada clã deve possuir uma cor exclusiva para estandartes, vidros e armaduras. <span class="text-red-400">Não pode haver repetição.</span></span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <span class="material-symbols-outlined text-red-500 shrink-0">block</span>
-                            <span><strong>Fusões Proibidas:</strong> Vetado ultrapassar 6 membros. A hegemonia absoluta é proibida.</span>
+                            <span class="material-symbols-outlined text-purple-400 shrink-0">badge</span>
+                            <span><strong>Títulos de Honra:</strong> Players devem usar títulos nos nicks (ex: [ALMIRANTE] Trojan) na cor do clã, respeitando o Tema escolhido.</span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <span class="material-symbols-outlined text-purple-400 shrink-0">balance</span>
-                            <span><strong>O Tribunal:</strong> Desavenças insolúveis devem ser levadas ao <em>Supremo Tribunal dos Quatro</em> para julgamento.</span>
+                            <span class="material-symbols-outlined text-emerald-400 shrink-0">group_add</span>
+                            <span><strong>Recrutamento:</strong> A formação inicia apenas com o surgimento dos Líderes. Somente o Líder registra o clã.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-red-500 shrink-0">balance</span>
+                            <span><strong>Supremo Tribunal:</strong> Composto unicamente pelos 4 Líderes de Clã para julgar o destino do mundo.</span>
                         </li>
                     </ul>
                 </div>
@@ -394,9 +507,9 @@
                             <span class="material-symbols-outlined">diamond</span> III. O Coração (End Crystal)
                         </h3>
                         <ul class="space-y-3 text-gray-300 text-sm">
-                            <li class="border-l-2 border-purple-500 pl-3"><strong>O Altar:</strong> Centro da base, protegido por vidro da cor da equipe.</li>
-                            <li class="border-l-2 border-purple-500 pl-3"><strong>Identidade:</strong> Criem estandartes. O cristal é a vida, a bandeira é a honra.</li>
-                            <li class="border-l-2 border-purple-500 pl-3"><strong>Invulnerabilidade:</strong> INDESTRUTÍVEL até o Capítulo Final.</li>
+                            <li class="border-l-2 border-purple-500 pl-3"><strong>Posição Sagrada:</strong> Deve estar no CENTRO absoluto da base (seja aérea, térrea ou subterrânea).</li>
+                            <li class="border-l-2 border-purple-500 pl-3"><strong>O Domo:</strong> Obrigatório estar envolto por um cubo de vidro 3x3 na cor oficial da equipe.</li>
+                            <li class="border-l-2 border-purple-500 pl-3"><strong>Fortificação:</strong> Pode e DEVE ser protegido com qualquer bloco (Obsidian, Água, etc). É a vida do seu clã.</li>
                             <li class="border-l-2 border-purple-500 pl-3 text-red-400"><strong>A Queda:</strong> Se explodir no evento final, o Clã perde o prêmio máximo.</li>
                         </ul>
                     </div>
@@ -530,14 +643,21 @@
                 <span class="material-symbols-outlined text-6xl text-gold mb-4">edit_document</span>
                 <h2 class="text-4xl font-heading text-white mb-4">Registro de Guerra</h2>
                 <div class="h-1 w-24 bg-gold mx-auto"></div>
-                <p class="mt-4 text-gray-400">Inscreva seu Clã no livro da história.</p>
+                <p class="mt-4 text-gray-400">Inscreva seu Clã no livro da história. Apenas Líderes.</p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div id="registration-locked-msg" class="text-center py-12 border-2 border-stone-700 bg-black/50 rounded-lg">
+                <span class="material-symbols-outlined text-6xl text-stone-500 mb-4">lock</span>
+                <h3 class="text-2xl font-heading text-stone-400">Registro Bloqueado</h3>
+                <p class="text-gray-500 mt-2">O registro de clãs estará disponível somente após o fim da votação (15 de Dezembro) ou Decreto Real.</p>
+            </div>
+
+            <div id="registration-form-container" class="grid grid-cols-1 lg:grid-cols-2 gap-12 hidden">
                 <div class="bg-obsidian border-2 border-gold/50 p-8 rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.5)] relative">
                     <h3 class="text-2xl font-heading text-gold mb-6 flex items-center gap-2">
                         <span class="material-symbols-outlined">swords</span> Novo Registro
                     </h3>
+                    <p class="text-xs text-gray-500 mb-6 italic">* Apenas o Líder deve preencher este formulário.</p>
                     
                     <form id="clan-form" class="space-y-6" onsubmit="event.preventDefault(); registerClan();">
                         <div>
@@ -577,6 +697,7 @@
                                     <span id="copy-feedback" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-xs px-2 py-1 rounded opacity-0 transition-opacity">Copiado!</span>
                                 </button>
                             </div>
+                            <p class="text-xs text-red-400 mt-2 hidden" id="color-error-msg">* Esta cor já foi escolhida por outro clã.</p>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -662,7 +783,7 @@
                     <div class="absolute top-0 -left-3 md:-left-3 w-6 h-6 rounded-full bg-mythicblue border-4 border-stone-800"></div>
                     <div class="bg-obsidian border border-blue-900 rounded-lg overflow-hidden shadow-lg shadow-blue-900/20 card-hover transition-all">
                         <div class="relative h-40">
-                             <img src="img/elden_guardian.jpg" alt="Elder Guardian Titan" class="w-full h-full object-cover opacity-70">
+                             <img src="img/elder-guardian.jpg" alt="Elder Guardian Titan" class="w-full h-full object-cover opacity-70">
                              <div class="absolute inset-0 bg-blue-900/30"></div>
                         </div>
                         
@@ -685,11 +806,11 @@
                     </div>
                 </div>
 
-                <div class="relative md:w-1/2 md:mr-auto pl-8 md:pr-12 md:pl-0 md:text-right fade-in-section">
+                <div class="relative md:w-1/2 md:mr-auto pl-8 md:pl-12 md:text-right fade-in-section">
                     <div class="absolute top-0 -left-3 md:left-auto md:-right-3 w-6 h-6 rounded-full bg-red-900 border-4 border-stone-800"></div>
                     <div class="bg-obsidian border border-red-900 rounded-lg overflow-hidden shadow-lg shadow-red-900/20 card-hover transition-all">
                         <div class="relative h-40">
-                             <img src="img/wither_boss.jpg" alt="Wither Titan" class="w-full h-full object-cover opacity-70">
+                             <img src="img/wither.jpg" alt="Wither Titan" class="w-full h-full object-cover opacity-70">
                              <div class="absolute inset-0 bg-red-900/30"></div>
                         </div>
 
@@ -716,7 +837,7 @@
                     <div class="absolute top-0 -left-3 md:-left-3 w-6 h-6 rounded-full bg-white border-4 border-stone-800"></div>
                     <div class="bg-obsidian border border-gray-600 rounded-lg overflow-hidden shadow-lg shadow-white/10 card-hover transition-all">
                          <div class="relative h-40">
-                             <img src="img/ender_dragon.jpg" alt="Ender Dragon Titan" class="w-full h-full object-cover opacity-70">
+                             <img src="img/ender-dragon-lightning.jpg" alt="Ender Dragon Titan" class="w-full h-full object-cover opacity-70">
                              <div class="absolute inset-0 bg-gray-900/30"></div>
                         </div>
 
@@ -739,11 +860,11 @@
                     </div>
                 </div>
 
-                <div class="relative md:w-1/2 md:mr-auto pl-8 md:pr-12 md:pl-0 md:text-right fade-in-section">
+                <div class="relative md:w-1/2 md:mr-auto pl-8 md:pl-12 md:text-right fade-in-section">
                     <div class="absolute top-0 -left-3 md:left-auto md:-right-3 w-6 h-6 rounded-full bg-teal-900 border-4 border-stone-800"></div>
                     <div class="bg-obsidian border border-teal-900 rounded-lg overflow-hidden shadow-lg shadow-teal-900/20 card-hover transition-all">
                          <div class="relative h-40">
-                             <img src="img/warden_boss.jpg" alt="Warden Titan" class="w-full h-full object-cover opacity-70">
+                             <img src="img/warden-boss.jpg" alt="Warden Titan" class="w-full h-full object-cover opacity-70">
                              <div class="absolute inset-0 bg-teal-900/30"></div>
                         </div>
                         
@@ -906,6 +1027,321 @@
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2YXVqdmdud3BtdXlibnlzbWliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ0NjUwNDAsImV4cCI6MjA4MDA0MTA0MH0.d01sDTQ7LDHfzGgMq9CzrzUkg9pIv0Wa49PK_3geHhk'
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey)
 
+        // --- GLOBAL STATE ---
+        const state = {
+            registeredClans: [],
+            takenEconomies: new Set(),
+            takenColors: new Set(),
+            CLAN_LIMIT: 4,
+            MEMBER_LIMIT: 6,
+            candidates: [],
+            currentSelections: new Set(), // Indices selecionados localmente
+            resultsRevealed: false
+        };
+
+        // --- ELECTION LOGIC (NOVO) ---
+        async function fetchCandidates() {
+            const { data, error } = await supabase
+                .from('candidates')
+                .select('*')
+                .order('votes', { ascending: false }); // Já ordena por votos
+
+            if (error) {
+                console.error("Erro ao buscar candidatos:", error);
+                return;
+            }
+
+            state.candidates = data || [];
+            renderElectionUI();
+        }
+
+        async function registerCandidateForElection() {
+            const name = document.getElementById('new-candidate-name').value.trim();
+            const slogan = document.getElementById('candidate-slogan').value.trim();
+            const strategy = document.getElementById('candidate-farm').value;
+            
+            if (!name || !slogan) {
+                alert("Preencha todos os campos!");
+                return;
+            }
+            
+            // Check duplicate local
+            if(state.candidates.some(c => c.name.toLowerCase() === name.toLowerCase())) {
+                alert("Este candidato já está inscrito.");
+                return;
+            }
+
+            const btn = document.getElementById('btn-candidatar');
+            btn.innerText = "Enviando...";
+            btn.disabled = true;
+
+            const { error } = await supabase
+                .from('candidates')
+                .insert([{ name, slogan, strategy }]);
+
+            if (error) {
+                alert("Erro ao candidatar: " + error.message);
+            } else {
+                alert("Candidatura registrada com sucesso! A sorte está lançada.");
+                document.getElementById('new-candidate-name').value = '';
+                document.getElementById('candidate-slogan').value = '';
+                fetchCandidates();
+            }
+            btn.innerText = "Candidatar-se";
+            btn.disabled = false;
+        }
+
+        function toggleCandidateSelection(id) {
+            if(state.currentSelections.has(id)) {
+                state.currentSelections.delete(id);
+            } else {
+                if(state.currentSelections.size >= 4) {
+                    alert("Você deve selecionar exatamente 4 candidatos.");
+                    return;
+                }
+                state.currentSelections.add(id);
+            }
+            renderElectionUI();
+        }
+
+        async function submitMultiVote() {
+            const voterInput = document.getElementById('voter-name');
+            const voterName = voterInput.value.trim();
+
+            if (!voterName) {
+                alert("Por favor, identifique-se para votar.");
+                return;
+            }
+            
+            if (state.currentSelections.size !== 4) {
+                alert("Você deve selecionar EXATAMENTE 4 candidatos.");
+                return;
+            }
+
+            // Check self-voting
+            let isSelfVoting = false;
+            state.currentSelections.forEach(id => {
+                 const candidate = state.candidates.find(c => c.id === id);
+                 if (candidate && candidate.name.toLowerCase() === voterName.toLowerCase()) {
+                     isSelfVoting = true;
+                 }
+            });
+
+            if (isSelfVoting) {
+                alert("Honra, guerreiro! Você não pode votar em si mesmo.");
+                return;
+            }
+
+            // Check if voted (DB check)
+            const { data: existingVote } = await supabase
+                .from('votes')
+                .select('*')
+                .eq('voter_name', voterName)
+                .limit(1);
+
+            if (existingVote && existingVote.length > 0) {
+                alert("Você já votou nesta eleição!");
+                return;
+            }
+
+            const confirmBtn = document.getElementById('confirm-vote-btn');
+            confirmBtn.innerText = "Computando...";
+            confirmBtn.disabled = true;
+
+            // Process votes
+            const selectedIds = Array.from(state.currentSelections);
+            
+            // 1. Register voter
+            const votesToInsert = selectedIds.map(candId => ({
+                voter_name: voterName,
+                candidate_id: candId
+            }));
+
+            const { error: voteError } = await supabase.from('votes').insert(votesToInsert);
+
+            if (voteError) {
+                alert("Erro ao votar: " + voteError.message);
+                confirmBtn.innerText = "Confirmar Votos";
+                confirmBtn.disabled = false;
+                return;
+            }
+
+            // 2. Increment counts (Simple loop for this scale)
+            for (let id of selectedIds) {
+                const candidate = state.candidates.find(c => c.id === id);
+                await supabase
+                    .from('candidates')
+                    .update({ votes: candidate.votes + 1 })
+                    .eq('id', id);
+            }
+
+            alert("Votos confirmados! Agradecemos sua participação cívica.");
+            state.currentSelections.clear();
+            confirmBtn.innerText = "Confirmar Votos";
+            confirmBtn.disabled = false;
+            fetchCandidates();
+        }
+
+        function revealResults() {
+             const password = prompt("Senha de Admin para revelar resultados:");
+             if(password === "TEBAS") {
+                 state.resultsRevealed = true;
+                 renderElectionUI();
+                 toggleRegistrationLock(true); // UNLOCK CLAN REGISTRATION FOR ADMIN
+             } else {
+                 alert("Acesso negado.");
+             }
+        }
+        
+        function toggleRegistrationLock(isOpen) {
+            const lockMsg = document.getElementById('registration-locked-msg');
+            const formContainer = document.getElementById('registration-form-container');
+            if(isOpen) {
+                lockMsg.classList.add('hidden');
+                formContainer.classList.remove('hidden');
+                formContainer.classList.add('grid'); // Restore grid layout
+            } else {
+                lockMsg.classList.remove('hidden');
+                formContainer.classList.add('hidden');
+                formContainer.classList.remove('grid');
+            }
+        }
+
+        function renderElectionUI() {
+            const listEl = document.getElementById('candidates-list');
+            const countEl = document.getElementById('candidate-count-display');
+            const statusText = document.getElementById('election-status-text');
+            const acclamationMsg = document.getElementById('acclamation-msg');
+            const voterBox = document.getElementById('voter-identity-box');
+            const candidateFormBox = document.getElementById('candidate-form-box');
+            const titleEl = document.getElementById('candidates-title');
+            const selectedCountDisplay = document.getElementById('selected-count-display');
+            const confirmBtn = document.getElementById('confirm-vote-btn');
+
+            const totalCandidates = state.candidates.length;
+            
+            // UI Updates
+            if(selectedCountDisplay) {
+                selectedCountDisplay.innerText = state.currentSelections.size;
+                if(state.currentSelections.size === 4) {
+                    selectedCountDisplay.classList.remove('text-gold');
+                    selectedCountDisplay.classList.add('text-emerald-400');
+                    confirmBtn.disabled = false;
+                    confirmBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                } else {
+                    selectedCountDisplay.classList.add('text-gold');
+                    selectedCountDisplay.classList.remove('text-emerald-400');
+                    confirmBtn.disabled = true;
+                    confirmBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+            }
+
+            if (state.resultsRevealed) {
+                countEl.innerText = "A Vontade do Povo";
+                statusText.innerText = "REIS DEFINIDOS";
+                titleEl.innerText = "A Távola dos 4 Reis";
+                acclamationMsg.classList.add('hidden');
+                voterBox.classList.add('hidden');
+                candidateFormBox.classList.add('hidden');
+
+                // Sort candidates
+                let sorted = [...state.candidates].sort((a, b) => b.votes - a.votes);
+                const elected = sorted.slice(0, 4);
+                
+                listEl.innerHTML = '';
+                listEl.className = "grid grid-cols-1 md:grid-cols-2 gap-6";
+
+                elected.forEach(c => {
+                   const item = document.createElement('div');
+                   item.className = "bg-gradient-to-b from-stone-900 to-black border-2 border-gold p-6 rounded-lg relative overflow-hidden shadow-[0_0_30px_rgba(255,215,0,0.2)] transform transition-all hover:scale-105";
+                   item.innerHTML = `
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gold"></div>
+                        <div class="flex flex-col items-center text-center relative z-10">
+                            <span class="material-symbols-outlined text-5xl text-gold mb-2 drop-shadow-lg">crown</span>
+                            <h4 class="font-heading text-2xl text-white font-black mb-1">${c.name}</h4>
+                            <div class="bg-gold/20 border border-gold/50 px-3 py-1 rounded text-xs text-gold font-bold uppercase tracking-widest mb-4">
+                                ELEITO (${c.votes} Votos)
+                            </div>
+                            <p class="text-sm text-gray-300 italic font-serif">"${c.slogan}"</p>
+                            <div class="mt-4 pt-4 border-t border-white/10 w-full flex justify-center gap-2 text-gray-400 text-xs">
+                                <span class="material-symbols-outlined text-base">strategy</span>
+                                Foco: <span class="text-white font-bold">${c.strategy}</span>
+                            </div>
+                        </div>
+                   `;
+                   listEl.appendChild(item);
+                });
+                return;
+            }
+
+            // Normal Phase
+            countEl.innerText = `${totalCandidates} Candidatos`;
+            const isVotingPhase = totalCandidates > 4;
+            
+            if(isVotingPhase) {
+                statusText.innerText = "VOTAÇÃO ABERTA";
+                statusText.className = "text-purple-400 font-bold animate-pulse";
+                acclamationMsg.classList.add('hidden');
+                voterBox.classList.remove('hidden');
+                candidateFormBox.classList.add('hidden'); 
+            } else {
+                statusText.innerText = "Inscrições Abertas";
+                statusText.className = "text-white font-bold";
+                acclamationMsg.classList.remove('hidden');
+                voterBox.classList.add('hidden');
+                candidateFormBox.classList.remove('hidden');
+            }
+
+            listEl.innerHTML = '';
+            listEl.className = "grid grid-cols-1 md:grid-cols-2 gap-4";
+
+            if(state.candidates.length === 0) {
+                 listEl.innerHTML = '<div class="text-gray-500 italic col-span-2 text-center py-10">Nenhum candidato se apresentou ainda.</div>';
+                 return;
+            }
+
+            state.candidates.forEach((c) => {
+                const isSelected = state.currentSelections.has(c.id);
+                const item = document.createElement('div');
+                
+                let selectionClasses = "border-stone-700";
+
+                if(isVotingPhase) {
+                    selectionClasses = `cursor-pointer hover:border-purple-500 candidate-card ${isSelected ? 'selected border-emerald-500 bg-emerald-900/10 shadow-[0_0_15px_rgba(16,185,129,0.2)]' : 'border-stone-700'}`;
+                    item.onclick = () => toggleCandidateSelection(c.id);
+                }
+
+                item.className = `bg-stone-900 border p-4 rounded relative overflow-hidden transition-all group ${selectionClasses}`;
+                
+                let farmIcon = 'help';
+                if(c.strategy === 'Ferro') farmIcon = 'shield';
+                if(c.strategy === 'Ouro') farmIcon = 'payments';
+                if(c.strategy === 'Raid') farmIcon = 'local_fire_department';
+                if(c.strategy === 'XP') farmIcon = 'bolt';
+
+                const checkmark = isVotingPhase ? `
+                    <div class="absolute top-2 right-2 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${isSelected ? 'bg-emerald-500 border-emerald-500 scale-110' : 'border-stone-600 bg-black/50'}">
+                        ${isSelected ? '<span class="material-symbols-outlined text-white text-sm">check</span>' : ''}
+                    </div>
+                ` : '';
+
+                item.innerHTML = `
+                    ${checkmark}
+                    <div class="flex justify-between items-start relative z-10 mb-2 pr-8">
+                        <h4 class="font-heading text-lg text-white font-bold">${c.name}</h4>
+                    </div>
+                    <div class="flex items-center gap-2 mb-3">
+                         <div class="text-xs bg-black/40 px-2 py-1 rounded border border-stone-600 text-gray-400 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-sm">${farmIcon}</span>
+                            ${c.strategy}
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-400 italic font-serif border-l-2 border-purple-500/50 pl-3">"${c.slogan}"</p>
+                `;
+                listEl.appendChild(item);
+            });
+        }
+
         // --- 0. EXPORT FUNCTIONALITY ---
         function downloadPage() {
             const htmlContent = document.documentElement.outerHTML;
@@ -919,7 +1355,7 @@
             setTimeout(() => { document.body.removeChild(a); window.URL.revokeObjectURL(url); }, 0);
         }
 
-        // --- 1. Global Animations & Setup ---
+        // --- 1. Global Animations ---
         document.addEventListener('DOMContentLoaded', () => {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -928,6 +1364,7 @@
             }, { threshold: 0.1 });
             document.querySelectorAll('.fade-in-section').forEach(section => observer.observe(section));
             
+            // Initialize Countdown
             updateCountdown();
             setInterval(updateCountdown, 1000);
 
@@ -940,11 +1377,15 @@
                 themeSelect.appendChild(option);
             });
 
+            // Initialize Glass Picker
             renderGlassPicker();
-            document.getElementById('clan-members').addEventListener('input', validateMembers);
 
-            // CARREGAR CLÃS DO BANCO DE DADOS AO INICIAR
+            // Member count validation listener
+            document.getElementById('clan-members').addEventListener('input', validateMembers);
+            
+            // Load Data
             fetchClans();
+            fetchCandidates();
         });
         
         // --- 2. Countdown Logic ---
@@ -964,21 +1405,18 @@
                 document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
                 document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
             } else {
+                // If date is passed
                 document.getElementById("days").innerText = "00";
                 document.getElementById("hours").innerText = "00";
                 document.getElementById("minutes").innerText = "00";
                 document.getElementById("seconds").innerText = "00";
+                
+                // Auto unlock registration if date passed
+                toggleRegistrationLock(true);
             }
         }
-
-        // --- 3. Economy Logic & State ---
-        const state = {
-            registeredClans: [], 
-            takenEconomies: new Set(),
-            CLAN_LIMIT: 4,
-            MEMBER_LIMIT: 6
-        };
-
+        
+        // --- CLAN THEMES CONSTANT (REDUNDANT BUT KEPT FOR REFERENCE) ---
         const clanThemes = {
             "LEGADO": { symbol: "Ω", desc: "\"Nascidos no fogo, forjados no mito.\" A imortalidade não é dada, é conquistada pela espada. Lutem para serem eternos.", leader: "ARCONTE", coleader: "EXECUTOR", member: "ESPARTANOS" },
             "ONISCIÊNCIA": { symbol: "☥", desc: "\"Os olhos que veem além do véu.\" Enquanto o mundo tropeça no escuro, vocês caminham guiados pela certeza divina.", leader: "ORÁCULO", coleader: "ARAUTO", member: "ASCENDENTES" },
@@ -993,7 +1431,7 @@
             "SOBERANIA": { symbol: "♚", desc: "\"Nossa terra, nosso trono.\" O juramento feudal é inquebrável. Vocês são os legítimos donos do solo.", leader: "MONARCA", coleader: "LORDE", member: "BARÕES" },
             "PIRATA": { symbol: "☠", desc: "\"Parte do navio, parte da tripulação.\" Vocês não navegam sobre as águas, vocês emergem delas.", leader: "LORDE PIRATA", coleader: "IMEDIATO", member: "SAQUEADORES" }
         };
-
+        
         const minecraftGlassColors = [
             { name: "Branco", hex: "#FFFFFF" },
             { name: "Vermelho", hex: "#B02E26" },
@@ -1018,26 +1456,52 @@
             
             minecraftGlassColors.forEach(colorObj => {
                 const glass = document.createElement('div');
-                glass.className = 'glass-option';
+                const isTaken = state.takenColors.has(colorObj.hex);
+                glass.className = `glass-option ${isTaken ? 'disabled' : ''}`;
                 glass.style.backgroundColor = colorObj.hex;
-                glass.title = colorObj.name;
+                glass.title = isTaken ? `${colorObj.name} (Indisponível)` : colorObj.name;
+                
+                // Add shine effects
                 const shine1 = document.createElement('div');
                 shine1.className = 'glass-shine';
                 const shine2 = document.createElement('div');
                 shine2.className = 'glass-shine-2';
+                
                 glass.appendChild(shine1);
                 glass.appendChild(shine2);
-                glass.onclick = () => selectGlassColor(colorObj.hex, colorObj.name, glass);
+                
+                if(!isTaken) {
+                    glass.onclick = () => selectGlassColor(colorObj.hex, colorObj.name, glass);
+                }
+                
                 picker.appendChild(glass);
             });
-            if(picker.children.length > 0) {
-                selectGlassColor(minecraftGlassColors[0].hex, minecraftGlassColors[0].name, picker.children[0]);
+            
+            // Select first available by default if current selection is invalid
+            const currentHex = document.getElementById('clan-color').value;
+            if(state.takenColors.has(currentHex)) {
+                 const available = minecraftGlassColors.find(c => !state.takenColors.has(c.hex));
+                 if(available) {
+                     const index = minecraftGlassColors.indexOf(available);
+                     if(picker.children[index]) {
+                         selectGlassColor(available.hex, available.name, picker.children[index]);
+                     }
+                 }
+            } else {
+                 const index = minecraftGlassColors.findIndex(c => c.hex === currentHex);
+                 if(index >= 0 && picker.children[index] && !state.takenColors.has(currentHex)) {
+                     picker.children[index].classList.add('selected');
+                 }
             }
         }
 
         function selectGlassColor(hex, name, element) {
+            if(state.takenColors.has(hex)) return;
+
             document.getElementById('clan-color').value = hex;
             document.getElementById('selected-color-name').innerText = `Selecionado: ${name}`;
+            
+            // Update UI selection state
             const allGlasses = document.querySelectorAll('.glass-option');
             allGlasses.forEach(el => el.classList.remove('selected'));
             element.classList.add('selected');
@@ -1210,12 +1674,11 @@
 
         // 1. Função para carregar clãs do banco
         async function fetchClans() {
-            // Limpa a UI
             document.getElementById('clan-list').innerHTML = '';
             state.registeredClans = [];
             state.takenEconomies.clear();
+            state.takenColors.clear();
 
-            // Pega do Supabase
             const { data, error } = await supabase
                 .from('clans')
                 .select('*')
@@ -1226,24 +1689,22 @@
                 return;
             }
 
-            // Atualiza a UI com os dados reais
             if (data && data.length > 0) {
                 data.forEach(clan => {
                     state.registeredClans.push(clan);
                     state.takenEconomies.add(clan.economy_type);
-                    // Passando o ID para permitir deleção
+                    state.takenColors.add(clan.color);
                     updateClanListUi(clan.name, clan.motto, clan.color, clan.theme, clan.leader, clan.coleader, clan.members, clan.economy, clan.id);
                     updateEconomyUi(clan.economy_type);
                 });
             } else {
-                // Se não tiver clãs, mostra msg de vazio
                 const clanList = document.getElementById('clan-list');
                 clanList.innerHTML = `<div class="text-center text-gray-500 mt-20 italic" id="empty-state">Nenhum clã registrado ainda.<br>Seja o primeiro a marcar território.</div>`;
             }
             
+            renderGlassPicker(); // Atualiza cores bloqueadas
             updateClanCountUi();
             
-            // Check limit
             if (state.registeredClans.length >= state.CLAN_LIMIT) {
                 document.getElementById('limit-reached-msg').classList.remove('hidden');
                 document.getElementById('register-btn').disabled = true;
@@ -1252,7 +1713,6 @@
 
         // 2. Função para registrar novo clã no banco
         async function registerClan() {
-            // Verifica limite localmente antes de tentar
             if (state.registeredClans.length >= state.CLAN_LIMIT) {
                 alert("O limite de 4 clãs já foi atingido.");
                 return;
@@ -1268,7 +1728,7 @@
             const economyName = document.getElementById('clan-economy-input').value;
             const economyType = document.getElementById('clan-economy-type').value;
 
-            if(!themeKey || !economyType || state.takenEconomies.has(economyType) || !validateMembers()) {
+            if(!themeKey || !economyType || state.takenEconomies.has(economyType) || state.takenColors.has(color) || !validateMembers()) {
                 alert("Verifique os dados do formulário.");
                 return;
             }
@@ -1277,7 +1737,6 @@
             registerBtn.disabled = true;
             registerBtn.innerText = "Registrando...";
 
-            // Envia para o Supabase
             const { data, error } = await supabase
                 .from('clans')
                 .insert([
@@ -1300,40 +1759,31 @@
                 registerBtn.disabled = false;
                 registerBtn.innerText = "Registrar Clã";
             } else {
-                // Sucesso! Recarrega a lista para mostrar a todos
                 alert("Clã registrado com sucesso para toda a eternidade!");
-                fetchClans(); // Atualiza a tela
+                fetchClans(); 
                 
-                // Limpa form
                 document.getElementById('clan-form').reset();
                 document.getElementById('theme-info').classList.add('hidden');
                 document.getElementById('clan-economy-input').value = '';
                 document.getElementById('clan-economy-type').value = '';
                 registerBtn.disabled = false;
                 registerBtn.innerText = "Registrar Clã";
-                if(document.getElementById('glass-picker').children.length > 0) {
-                    selectGlassColor(minecraftGlassColors[0].hex, minecraftGlassColors[0].name, document.getElementById('glass-picker').children[0]);
-                }
             }
         }
 
-        // --- FUNÇÃO DE DELETAR (NOVA) ---
+        // --- FUNÇÃO DE DELETAR ---
         async function deleteClan(id) {
-            // 1. Pergunta a senha para evitar que qualquer um delete
             const password = prompt("⚠️ ÁREA RESTRITA ⚠️\nDigite a senha de TEBAS para apagar este registro:");
             
-            // 2. Defina sua senha aqui
             if (password !== "TEBAS") {
                 if (password) alert("Senha incorreta! Apenas Tebas tem esse poder.");
                 return;
             }
 
-            // 3. Confirmação final
             if (!confirm("Tem certeza absoluta? Isso apagará o clã da história para sempre.")) {
                 return;
             }
 
-            // 4. Manda o comando para o Supabase
             const { error } = await supabase
                 .from('clans')
                 .delete()
@@ -1343,7 +1793,7 @@
                 alert("Erro ao deletar: " + error.message);
             } else {
                 alert("Clã removido da história.");
-                fetchClans(); // Recarrega a lista
+                fetchClans();
             }
         }
 
@@ -1357,8 +1807,7 @@
             }
 
             const card = document.createElement('div');
-            // Estilo Minimalista e Escuro (Stone 900) com borda interna sutil
-            card.className = "bg-stone-900/95 p-0 rounded-lg border-l-4 shadow-[0_10px_30px_rgba(0,0,0,0.5)] animate-[pulse_0.5s_ease-in-out] relative overflow-hidden group border-t border-r border-b border-white/5";
+            card.className = "bg-stone-900/95 p-0 rounded-lg border-l-4 shadow-[0_10px_30px_rgba(0,0,0,0.5)] animate-[pulse_0.5s_ease-in-out] relative overflow-hidden group border-t border-r border-b border-white/5 mb-6";
             card.style.borderLeftColor = color;
             
             const coleaderHtml = coleader ? `
@@ -1393,7 +1842,6 @@
                     </h3>
                     <p class="text-xs text-gray-400 italic font-serif border-t border-white/10 pt-2 inline-block px-4">"${motto}"</p>
                 </div>
-
                 <div class="relative z-10">
                     <div class="py-3 px-4 border-b border-white/5 bg-white/5">
                         <span class="text-xs uppercase tracking-widest font-black block mb-1 flex items-center gap-2" style="color: ${color}">
@@ -1401,9 +1849,7 @@
                         </span>
                         <p class="text-xl text-white font-bold font-heading tracking-wide">${leader}</p>
                     </div>
-
                     ${coleaderHtml}
-                    
                     <div class="py-3 px-4">
                         <span class="text-xs text-gray-500 uppercase tracking-widest font-black block mb-2 border-b border-white/5 pb-1 w-max">${theme.member}</span> 
                         <div class="text-sm text-gray-400 leading-relaxed font-serif">
@@ -1411,7 +1857,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="relative z-10 bg-black/60 p-3 flex justify-between items-center border-t border-white/10">
                     <span class="text-[10px] text-gray-600 uppercase tracking-widest">Especialidade</span>
                     <div class="flex items-center gap-2 text-gold">
@@ -1441,10 +1886,19 @@
             }
         }
         
+        function resetEconomyUi(economyType) {
+            const farmEl = document.getElementById('opt-' + economyType);
+            if (farmEl) {
+                farmEl.classList.remove('farm-taken');
+                farmEl.setAttribute('onclick', `selectFarm('${economyType}')`);
+                const label = document.getElementById('taken-label-' + economyType);
+                if (label) label.remove();
+            }
+        }
+        
         function updateClanCountUi() {
              document.getElementById('clan-count').innerText = `(${state.registeredClans.length}/${state.CLAN_LIMIT})`;
         }
     </script>
 </body>
 </html>
-
