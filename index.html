@@ -513,4 +513,984 @@
 
                 <div class="lg:col-span-2 bg-stone-800/50 border border-stone-700 p-6 rounded-lg min-h-[400px]">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-xl font-heading text-white" id="candidates-title">Candidatos ao Trono
+                        <h3 class="text-xl font-heading text-white" id="candidates-title">Candidatos ao Trono</h3>
+                        <span class="text-sm text-gray-400" id="candidate-count-display">0 Candidatos</span>
+                    </div>
+
+                    <div id="acclamation-msg" class="hidden mb-4 p-4 bg-emerald-900/30 border border-emerald-500/30 rounded text-emerald-200 text-sm text-center">
+                        <span class="material-symbols-outlined align-middle mr-2">verified</span>
+                        Poucos candidatos. Estes guerreiros assumirão o trono por Aclamação Automática se não houver oposição.
+                    </div>
+
+                    <div id="candidates-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="text-gray-500 italic col-span-2 text-center py-10">Carregando candidatos...</div>
+                    </div>
+                </div>
+            </div>
+         </div>
+    </section>
+
+    <section id="clas" class="py-20 px-4 relative bg-Greek-pattern fade-in-section">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="material-symbols-outlined text-6xl text-gold mb-4">groups</span>
+                <h2 class="text-4xl font-heading text-white mb-4">II. A Estrutura dos Clãs</h2>
+                <div class="h-1 w-24 bg-gold mx-auto"></div>
+                <p class="mt-4 text-gray-400">Regidos por 4 Cristais Primordiais, os Clãs são a alma da Titanomaquia.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-obsidian border border-stone-700 p-8 rounded-lg relative overflow-hidden group card-hover transition-all duration-300">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
+                        <span class="material-symbols-outlined text-9xl">gavel</span>
+                    </div>
+                    <h3 class="text-2xl font-heading text-gold mb-4">Hierarquia & Identidade</h3>
+                    <ul class="space-y-4 text-gray-300">
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-gold shrink-0">palette</span>
+                            <span><strong>Cores Únicas:</strong> Cada clã deve possuir uma cor exclusiva para estandartes, vidros e armaduras. <span class="text-red-400">Não pode haver repetição.</span></span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-purple-400 shrink-0">badge</span>
+                            <span><strong>Títulos de Honra:</strong> Players devem usar títulos nos nicks (ex: [ALMIRANTE] Trojan) na cor do clã, respeitando o Tema escolhido.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-emerald-400 shrink-0">group_add</span>
+                            <span><strong>Recrutamento:</strong> A formação inicia apenas com o surgimento dos Líderes. Somente o Líder registra o clã.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-red-500 shrink-0">balance</span>
+                            <span><strong>Supremo Tribunal:</strong> Composto unicamente pelos 4 Líderes de Clã para julgar o destino do mundo.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-obsidian border border-stone-700 p-8 rounded-lg relative overflow-hidden group card-hover transition-all duration-300">
+                    <div class="absolute inset-0">
+                        <img src="img/end-crystal.jpg" alt="End Crystal Altar" class="w-full h-full object-cover opacity-40 group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/90 to-transparent z-0"></div>
+                    </div>
+                    <div class="relative z-10">
+                        <h3 class="text-2xl font-heading text-purple-400 mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined">diamond</span> III. O Coração (End Crystal)
+                        </h3>
+                        <ul class="space-y-3 text-gray-300 text-sm">
+                            <li class="border-l-2 border-purple-500 pl-3"><strong>Posição Sagrada:</strong> Deve estar no CENTRO absoluto da base (seja aérea, térrea ou subterrânea).</li>
+                            <li class="border-l-2 border-purple-500 pl-3"><strong>O Domo:</strong> Obrigatório estar envolto por um cubo de vidro 3x3 na cor oficial da equipe.</li>
+                            <li class="border-l-2 border-purple-500 pl-3"><strong>Fortificação:</strong> Pode e DEVE ser protegido com qualquer bloco (Obsidian, Água, etc). É a vida do seu clã.</li>
+                            <li class="border-l-2 border-purple-500 pl-3 text-red-400"><strong>A Queda:</strong> Se explodir no evento final, o Clã perde o prêmio máximo.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="economia" class="py-20 bg-stone-900 border-y border-stone-800 fade-in-section">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-8">
+                <span class="material-symbols-outlined text-5xl text-emerald-500 mb-2">savings</span>
+                <h2 class="text-4xl font-heading text-white">IV. A Lei da Escassez</h2>
+                <p class="text-gray-400 mt-2">Recursos infinitos destroem o comércio. Escolha seu destino.</p>
+            </div>
+
+            <div class="bg-emerald-900/20 border border-emerald-500/30 p-4 rounded-lg text-center max-w-3xl mx-auto mb-12">
+                <p class="text-emerald-300 font-bold flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">sync_alt</span> Regra da Partilha
+                </p>
+                <p class="text-sm text-gray-300 mt-1">
+                    Um Clã só pode <strong>TER</strong> (ser dono) de uma farm específica, mas os recursos gerados podem ser comercializados, doados ou compartilhados com outros clãs conforme a vontade do dono.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" id="economy-grid">
+                </div>
+            
+            <div id="economy-msg" class="text-center mt-8 font-heading text-xl text-gold opacity-0 transition-opacity min-h-[2rem]">
+                </div>
+        </div>
+    </section>
+
+    <section id="registro" class="py-20 bg-stone-900 border-b border-stone-800 relative fade-in-section">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/black-scales.png')] opacity-20"></div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="text-center mb-16">
+                <span class="material-symbols-outlined text-6xl text-gold mb-4">edit_document</span>
+                <h2 class="text-4xl font-heading text-white mb-4">Registro de Guerra</h2>
+                <div class="h-1 w-24 bg-gold mx-auto"></div>
+                <p class="mt-4 text-gray-400">Inscreva seu Clã no livro da história. Apenas Líderes.</p>
+            </div>
+
+            <div id="registration-locked-msg" class="text-center py-12 border-2 border-stone-700 bg-black/50 rounded-lg">
+                <span class="material-symbols-outlined text-6xl text-stone-500 mb-4">lock</span>
+                <h3 class="text-2xl font-heading text-stone-400">Registro Bloqueado</h3>
+                <p class="text-gray-500 mt-2">O registro de clãs estará disponível somente após o fim da votação (15 de Dezembro) ou Decreto Real.</p>
+            </div>
+
+            <div id="registration-form-container" class="grid grid-cols-1 lg:grid-cols-2 gap-12 hidden">
+                <div class="bg-obsidian border-2 border-gold/50 p-8 rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.5)] relative">
+                    <h3 class="text-2xl font-heading text-gold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined">swords</span> Novo Registro
+                    </h3>
+                    <p class="text-xs text-gray-500 mb-6 italic">* Apenas o Líder deve preencher este formulário.</p>
+                    
+                    <form id="clan-form" class="space-y-6" onsubmit="event.preventDefault(); registerClan();">
+                        
+                        <div>
+                            <label class="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">Estandarte do Clã (Imagem):</label>
+                            <div class="relative border border-stone-600 rounded bg-black/40 p-4 text-center cursor-pointer hover:border-gold transition-colors group">
+                                <input type="file" id="clan-banner-file" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="previewBanner(event)">
+                                <div id="banner-preview-area" class="flex flex-col items-center justify-center">
+                                    <span class="material-symbols-outlined text-3xl text-stone-500 mb-2 group-hover:text-gold">image</span>
+                                    <p class="text-xs text-gray-400 group-hover:text-white">Clique para enviar (Max 2MB)</p>
+                                </div>
+                                <img id="banner-preview-img" class="hidden w-full h-32 object-cover rounded mt-2 border border-gold/30">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">Nome do Clã:</label>
+                            <input type="text" id="clan-name" class="input-mythic" placeholder="Ex: Os Spartanos" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">Lema do Clã:</label>
+                            <input type="text" id="clan-motto" class="input-mythic" placeholder="Ex: Força e Honra" maxlength="60">
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">Tema do Clã:</label>
+                            <select id="clan-theme" class="input-mythic cursor-pointer" onchange="updateThemeInfo()">
+                                <option value="" disabled selected>Escolha sua Hierarquia...</option>
+                                </select>
+                            <div id="theme-info" class="mt-2 p-3 bg-black/40 rounded border border-stone-700 text-sm hidden transition-all">
+                                <p id="theme-desc" class="text-gray-300 italic mb-2"></p>
+                                <div class="grid grid-cols-3 gap-2 text-xs text-center">
+                                    <div class="bg-stone-800 p-1 rounded"><span class="text-gold block mb-1">Líder</span><span id="theme-leader-title" class="font-bold text-white"></span></div>
+                                    <div class="bg-stone-800 p-1 rounded"><span class="text-gray-400 block mb-1">Co-Líder</span><span id="theme-coleader-title" class="font-bold text-white"></span></div>
+                                    <div class="bg-stone-800 p-1 rounded"><span class="text-gray-500 block mb-1">Membros</span><span id="theme-member-title" class="font-bold text-white"></span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">Cor da Equipe:</label>
+                            <input type="hidden" id="clan-color" value="#FFFFFF"> <div class="glass-picker-grid" id="glass-picker">
+                                </div>
+                            <div class="mt-4 flex items-center justify-between">
+                                <span class="text-xs text-gray-500" id="selected-color-name">Selecionado: Branco</span>
+                                <button type="button" onclick="copyColorCode()" class="px-4 py-2 bg-stone-800 border border-gold/30 text-gold rounded hover:bg-stone-700 transition-colors text-xs font-bold flex items-center gap-2 group relative">
+                                    <span class="material-symbols-outlined text-sm">content_copy</span>
+                                    Copiar Código
+                                    <span id="copy-feedback" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-xs px-2 py-1 rounded opacity-0 transition-opacity">Copiado!</span>
+                                </button>
+                            </div>
+                            <p class="text-xs text-red-400 mt-2 hidden" id="color-error-msg">* Esta cor já foi escolhida por outro clã.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider" id="label-leader">Líder (Nick):</label>
+                                <input type="text" id="clan-leader" class="input-mythic" placeholder="Ex: SteveGamer" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider" id="label-coleader">Co-Líder (Nick):</label>
+                                <input type="text" id="clan-coleader" class="input-mythic" placeholder="Ex: AlexPro">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider" id="label-members">Membros (Nicks):</label>
+                            <textarea id="clan-members" class="input-mythic h-24 resize-none" placeholder="Ex: Herobrine, Notch... (Separe por vírgula)" required></textarea>
+                            <p id="member-count-feedback" class="text-xs text-gray-500 mt-1 text-right">0/6 Membros</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-gold text-sm font-bold mb-2 uppercase tracking-wider flex items-center gap-2">
+                                <span class="material-symbols-outlined text-base">balance</span> Escolha da Economia:
+                            </label>
+                            <input type="text" id="clan-economy-input" class="input-mythic bg-stone-800 border-gold/30 text-gold cursor-not-allowed" placeholder="Clique em uma Farm na seção Economia acima" readonly required>
+                            <input type="hidden" id="clan-economy-type">
+                            <p class="text-xs text-gray-500 mt-1">* Selecione uma opção disponível na seção 'Lei da Escassez' acima.</p>
+                        </div>
+
+                        <button type="submit" id="register-btn" class="w-full py-4 bg-gradient-to-r from-gold to-yellow-600 text-black font-heading font-bold text-xl uppercase tracking-widest hover:brightness-110 transition-all shadow-lg transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0">
+                            Registrar Clã
+                        </button>
+                    </form>
+                      <div id="limit-reached-msg" class="absolute inset-0 bg-obsidian/90 backdrop-blur-sm flex items-center justify-center text-center p-8 hidden">
+                        <div>
+                            <span class="material-symbols-outlined text-6xl text-red-500 mb-4">block</span>
+                            <h3 class="text-2xl font-heading text-red-500 mb-2">Limite de Clãs Atingido</h3>
+                            <p class="text-gray-300">O mundo já possui 4 clãs registrados. Novas inscrições estão encerradas.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-bedrock/50 border border-stone-700 p-8 rounded-lg overflow-hidden relative min-h-[500px] flex flex-col">
+                    <h3 class="text-2xl font-heading text-white mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined">flag</span> Clãs Registrados
+                        <span id="clan-count" class="text-sm text-gray-400 ml-auto font-body">(0/4)</span>
+                    </h3>
+                    
+                    <div id="clan-list" class="space-y-6 overflow-y-auto max-h-[600px] pr-2 flex-grow">
+                        <div class="text-center text-gray-500 mt-20 italic" id="empty-state">
+                            Nenhum clã registrado ainda.<br>Seja o primeiro a marcar território.
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-white/5 text-center">
+                        <p class="text-[10px] text-gray-600 uppercase tracking-widest hover:text-red-500 transition-colors cursor-help" title="Use esta senha ao clicar na lixeira para deletar um clã">
+                            <span class="material-symbols-outlined text-[10px] align-middle">key</span> Senha de Admin: <span class="font-bold">TEBAS</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="saga" class="py-20 bg-bedrock relative overflow-hidden fade-in-section">
+        <div class="max-w-5xl mx-auto px-4">
+            <h2 class="text-4xl font-heading text-center text-white mb-8">V. A Saga dos Deuses</h2>
+            
+            <div class="bg-red-950/40 border-2 border-red-600 p-6 rounded-lg mb-16 text-center shadow-[0_0_20px_rgba(220,38,38,0.3)]">
+                <h3 class="text-red-500 font-heading text-2xl mb-4 flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">warning</span> DECRETO SUPREMO SOBRE TITANS
+                </h3>
+                <div class="text-gray-300 text-sm space-y-2 text-left md:text-center max-w-3xl mx-auto">
+                    <p>Os Titans surgirão <strong>exclusivamente pela vontade divina</strong>, em uma Arena preparada para a batalha nos dias de Evento.</p>
+                    <p class="text-red-400 font-bold">⚠️ PROIBIÇÃO: É estritamente proibido invocar (Wither) ou buscar (Dragon/Guardian/Warden) qualquer Titan por conta própria no mundo aberto.</p>
+                    <p><strong>Punição:</strong> A desobediência resultará em <span class="text-red-500 font-bold">Punição Divina Severa</span> (Conforme á escolha de Tebas ).</p>
+                    <p class="italic opacity-75">Após a morte de um Titan, um novo capítulo se inicia.</p>
+                    <p class="italic opacity-75">Caso o Titan vença todas os Clãs, o evento irá ocorrer novamente em algum momento até que o Titan seja derrotado.</p>
+                </div>
+            </div>
+
+            <div class="relative border-l-2 border-stone-800 ml-4 md:ml-1/2 space-y-20">
+                <div class="relative md:w-1/2 md:ml-auto pl-8 md:pl-12 fade-in-section">
+                    <div class="absolute top-0 -left-3 md:-left-3 w-6 h-6 rounded-full bg-mythicblue border-4 border-stone-800"></div>
+                    <div class="bg-obsidian border border-blue-900 rounded-lg overflow-hidden shadow-lg shadow-blue-900/20 card-hover transition-all">
+                        <div class="relative h-40">
+                             <img src="img/elder-guardian.jpg" alt="Elder Guardian Titan" class="w-full h-full object-cover opacity-70">
+                             <div class="absolute inset-0 bg-blue-900/30"></div>
+                        </div>
+                        
+                        <div class="p-6">
+                            <h3 class="text-blue-400 font-heading text-xl mb-1">Capítulo 1: A Fúria de Poseidon</h3>
+                            <div class="space-y-2 mt-4">
+                                <div class="flex items-center gap-2 text-sm text-gray-300">
+                                    <span class="material-symbols-outlined text-xs">water_drop</span> Alvo: Elder Guardian (Titan)
+                                </div>
+                                <div class="bg-blue-900/20 p-3 rounded border border-blue-900/50">
+                                    <p class="text-xs text-blue-200 font-bold mb-1">RECOMPENSA DO CLÃ:</p>
+                                    <ul class="text-xs text-gray-400 list-disc list-inside">
+                                        <li>1 Tridente (Lealdade) por membro</li>
+                                        <li>1 Totem da Imortalidade por membro</li>
+                                        <li class="text-gold">+R$ 25,00 Bônus</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative md:w-1/2 md:mr-auto pl-8 md:pl-12 md:text-right fade-in-section">
+                    <div class="absolute top-0 -left-3 md:left-auto md:-right-3 w-6 h-6 rounded-full bg-red-900 border-4 border-stone-800"></div>
+                    <div class="bg-obsidian border border-red-900 rounded-lg overflow-hidden shadow-lg shadow-red-900/20 card-hover transition-all">
+                        <div class="relative h-40">
+                             <img src="img/wither.jpg" alt="Wither Titan" class="w-full h-full object-cover opacity-70">
+                             <div class="absolute inset-0 bg-red-900/30"></div>
+                        </div>
+
+                        <div class="p-6">
+                            <h3 class="text-red-500 font-heading text-xl mb-1">Capítulo 2: O Chamado de Hades</h3>
+                            <div class="space-y-2 mt-4">
+                                <div class="flex items-center gap-2 text-sm text-gray-300 md:justify-end">
+                                    <span class="material-symbols-outlined text-xs">skull</span> Alvo: Wither (Titan)
+                                </div>
+                                <div class="bg-red-900/20 p-3 rounded border border-red-900/50 text-left">
+                                    <p class="text-xs text-red-200 font-bold mb-1">RECOMPENSA DO CLÃ:</p>
+                                    <ul class="text-xs text-gray-400 list-disc list-inside">
+                                        <li>1 Nether Star por membro</li>
+                                        <li>1 Espada de Netherite por membro</li>
+                                        <li class="text-gold">+R$ 25,00 Bônus</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative md:w-1/2 md:ml-auto pl-8 md:pl-12 fade-in-section">
+                    <div class="absolute top-0 -left-3 md:-left-3 w-6 h-6 rounded-full bg-white border-4 border-stone-800"></div>
+                    <div class="bg-obsidian border border-gray-600 rounded-lg overflow-hidden shadow-lg shadow-white/10 card-hover transition-all">
+                         <div class="relative h-40">
+                             <img src="img/ender-dragon-lightning.jpg" alt="Ender Dragon Titan" class="w-full h-full object-cover opacity-70">
+                             <div class="absolute inset-0 bg-gray-900/30"></div>
+                        </div>
+
+                        <div class="p-6">
+                            <h3 class="text-white font-heading text-xl mb-1">Capítulo 3: Os Céus de Zeus</h3>
+                            <div class="space-y-2 mt-4">
+                                <div class="flex items-center gap-2 text-sm text-gray-300">
+                                    <span class="material-symbols-outlined text-xs">flight</span> Alvo: Ender Dragon (Titan)
+                                </div>
+                                <div class="bg-gray-800/50 p-3 rounded border border-gray-600">
+                                    <p class="text-xs text-white font-bold mb-1">RECOMPENSA DO CLÃ:</p>
+                                    <ul class="text-xs text-gray-400 list-disc list-inside">
+                                        <li>1 Elytra (Inquebrável/Remendo) por membro</li>
+                                        <li class="text-[#D2691E]">Kit Completo de Netherite por membro</li>
+                                        <li class="text-gold">+R$ 25,00 Bônus</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative md:w-1/2 md:mr-auto pl-8 md:pl-12 md:text-right fade-in-section">
+                    <div class="absolute top-0 -left-3 md:left-auto md:-right-3 w-6 h-6 rounded-full bg-teal-900 border-4 border-stone-800"></div>
+                    <div class="bg-obsidian border border-teal-900 rounded-lg overflow-hidden shadow-lg shadow-teal-900/20 card-hover transition-all">
+                         <div class="relative h-40">
+                             <img src="img/warden-boss.jpg" alt="Warden Titan" class="w-full h-full object-cover opacity-70">
+                             <div class="absolute inset-0 bg-teal-900/30"></div>
+                        </div>
+                        
+                        <div class="p-6">
+                            <h3 class="text-teal-500 font-heading text-xl mb-1">Capítulo 4: O Tártaro</h3>
+                            <div class="space-y-2 mt-4">
+                                <div class="flex items-center gap-2 text-sm text-gray-300 md:justify-end">
+                                    <span class="material-symbols-outlined text-xs">visibility</span> Alvo: Warden (Titan)
+                                </div>
+                                <div class="bg-teal-900/20 p-3 rounded border border-teal-900/50 text-left">
+                                    <p class="text-xs text-teal-200 font-bold mb-1">RECOMPENSA & RISCO:</p>
+                                    <ul class="text-xs text-gray-400 list-disc list-inside">
+                                        <li class="font-bold text-white">Item de Poder Absoluto (Artefato Único)</li>
+                                        <li class="text-gold">+R$ 25,00 Bônus</li>
+                                        <li class="text-red-500 mt-1">Consequência: Cristais perdem proteção.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative w-full text-center mt-24 fade-in-section">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-gold border-4 border-white animate-pulse"></div>
+                    <div class="max-w-3xl mx-auto bg-gradient-to-b from-red-950 to-black border-2 border-gold p-8 rounded-xl relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-10"></div>
+                        <h3 class="text-4xl font-heading text-gold mb-2 uppercase">Capítulo Final: A Titanomaquia</h3>
+                        <p class="text-red-400 font-bold mb-6">GUERRA TOTAL // ELIMINAÇÃO</p>
+                        <p class="text-gray-300 mb-4">Os vidros dos Cristais tornam-se quebráveis. O último Clã com o cristal intacto leva o Grande Prêmio.</p>
+                        <div class="inline-block bg-gold text-black font-black text-xl px-6 py-2 rounded">
+                            GRANDE PRÊMIO
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="leis" class="py-20 bg-stone-900 transition-colors duration-700 fade-in-section">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-4xl font-heading text-white mb-8">VI. Códigos de Guerra</h2>
+            <p class="text-gray-400 text-sm mb-8">A desobediência às regras resultará na ira imediata do Supremo Tribunal dos Quatro.</p>
+            
+            <div class="flex justify-center items-center gap-6 mb-12">
+                <span id="peace-label" class="text-emerald-400 font-bold transition-opacity">DIAS DE PAZ</span>
+                <button id="mode-toggle" onclick="toggleWarMode()" class="relative w-20 h-10 bg-gray-700 rounded-full border-2 border-gray-600 focus:outline-none shadow-inner transition-colors duration-500">
+                    <div id="toggle-circle" class="absolute top-1 left-1 w-7 h-7 bg-white rounded-full shadow-lg transform transition-transform duration-500 flex items-center justify-center">
+                        <span id="toggle-icon" class="material-symbols-outlined text-xs text-black">radio_button_unchecked</span>
+                    </div>
+                </button>
+                <span id="purge-label" class="text-red-500 font-bold transition-opacity opacity-30">O EXPURGO</span>
+            </div>
+
+            <div id="rules-container" class="bg-obsidian border border-stone-600 p-8 rounded-lg min-h-[300px] transition-all duration-500 relative overflow-hidden">
+                <div id="rules-bg" class="absolute inset-0 opacity-10 transition-colors duration-500 bg-emerald-900"></div>
+                
+                <div class="relative z-10">
+                    <h3 id="rules-title" class="text-2xl font-heading text-emerald-400 mb-6 transition-colors duration-300">Segunda a Sexta</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                        <div>
+                            <h4 class="font-bold text-white mb-2 flex items-center gap-2">
+                                <span id="pvp-icon" class="material-symbols-outlined">swords</span> PvP
+                            </h4>
+                            <p id="pvp-text" class="text-gray-400 text-sm">Permitido apenas durante a NOITE (no jogo). De dia, só duelos aceitos.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white mb-2 flex items-center gap-2">
+                                <span id="base-icon" class="material-symbols-outlined">fort</span> Bases
+                            </h4>
+                            <p id="base-text" class="text-gray-400 text-sm">INTOCÁVEIS. Proibido invadir terreno inimigo.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-stone-700">
+                        <p class="text-xs text-gray-500 uppercase tracking-widest">Estado Atual</p>
+                        <p id="status-text" class="text-lg font-bold text-emerald-500 mt-1">🕊️ CONSTRUÇÃO E DIPLOMACIA</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tesouro" class="py-20 relative overflow-hidden bg-bedrock fade-in-section">
+        <div class="absolute inset-0 bg-gold/5"></div>
+        <div class="max-w-6xl mx-auto px-4 text-center relative z-10">
+            <h2 class="text-5xl font-heading text-gold mb-16 drop-shadow-lg">VII. O Tesouro de Tebas</h2>
+
+            <div class="flex flex-col md:flex-row justify-center items-center gap-16">
+                
+                <div class="relative group cursor-default">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gold/20 to-transparent blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                    <div class="relative z-10 flex flex-col items-center transform transition-transform duration-300 group-hover:scale-105">
+                        <span class="material-symbols-outlined text-8xl text-stone-400 mb-4 drop-shadow-2xl">account_balance</span>
+                        <div class="bg-obsidian border-2 border-stone-600 px-6 py-3 rounded-lg text-center shadow-lg group-hover:border-gold transition-colors">
+                            <p class="text-xs text-gray-500 uppercase tracking-widest mb-1">Prêmio Base</p>
+                            <p class="text-4xl font-black text-white">R$ 100,00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-gold text-4xl font-bold opacity-50">+</div>
+
+                <div class="relative group cursor-default">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gold/30 to-transparent blur-xl opacity-40 group-hover:opacity-60 transition-opacity"></div>
+                    <div class="relative z-10 flex flex-col items-center transform transition-transform duration-300 group-hover:scale-105">
+                        <div class="relative">
+                            <span class="material-symbols-outlined text-8xl text-gold mb-4 drop-shadow-2xl animate-float">diamond</span>
+                            <span class="absolute -top-2 -right-4 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full border border-red-800">x4 Titans</span>
+                        </div>
+                        <div class="bg-obsidian border-2 border-gold/50 px-6 py-3 rounded-lg text-center shadow-lg group-hover:border-gold transition-colors">
+                            <p class="text-xs text-gold uppercase tracking-widest mb-1">Bônus de Glória</p>
+                            <p class="text-4xl font-black text-gold">R$ 100,00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-gold text-4xl font-bold opacity-50">=</div>
+
+                <div class="relative group cursor-default">
+                    <div class="absolute inset-0 bg-gradient-to-t from-yellow-500/40 to-transparent blur-2xl opacity-50 group-hover:opacity-80 transition-opacity"></div>
+                    <div class="relative z-10 flex flex-col items-center transform transition-transform duration-300 group-hover:scale-110">
+                        <span class="material-symbols-outlined text-9xl text-yellow-300 mb-4 drop-shadow-[0_0_15px_rgba(255,215,0,0.8)] animate-pulse-slow">emoji_events</span>
+                        <div class="bg-gradient-to-b from-gold to-yellow-600 text-black border-2 border-yellow-200 px-8 py-4 rounded-xl text-center shadow-[0_0_30px_rgba(255,215,0,0.4)]">
+                            <p class="text-xs text-black/70 uppercase tracking-widest mb-1 font-bold">Prêmio Máximo</p>
+                            <p class="text-5xl font-black">R$ 200,00</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <p class="mt-16 text-gray-400 italic text-sm max-w-lg mx-auto border-t border-stone-800 pt-8">
+                 O prêmio + bônus conquistado será entregue apenas ao último Clã de pé quando a poeira da Titanomaquia baixar.
+                As equipes que derrotarem algum Titan receberão o bônus.
+            </p>
+        </div>
+    </section>
+
+    <footer class="bg-black py-16 border-t border-stone-800 text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-gold/10 to-transparent opacity-50"></div>
+        
+        <div class="relative z-10">
+            <p class="font-heading text-gold text-lg uppercase tracking-widest mb-2">Assinado</p>
+            <p class="font-heading text-white text-2xl font-bold mb-8">Tebas & O Supremo Tribunal dos Quatro</p>
+            
+            <div class="h-px w-24 bg-gold mx-auto mb-8"></div>
+            
+            <p class="font-heading text-4xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-gold to-yellow-200 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] animate-pulse-slow font-black">
+                "QUE VENÇA O MELHOR CLÃ"
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // --- CONFIGURAÇÃO DO SUPABASE ---
+        const supabaseUrl = 'https://tvaujvgnwpmuybnysmib.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2YXVqdmdud3BtdXlibnlzbWliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ0NjUwNDAsImV4cCI6MjA4MDA0MTA0MH0.d01sDTQ7LDHfzGgMq9CzrzUkg9pIv0Wa49PK_3geHhk'
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey)
+
+        // --- GLOBAL STATE ---
+        const state = {
+            registeredClans: [],
+            takenEconomies: new Set(),
+            takenColors: new Set(),
+            CLAN_LIMIT: 4,
+            MEMBER_LIMIT: 6,
+            candidates: [],
+            participants: [],
+            currentSelections: new Set(), 
+            resultsRevealed: false,
+            registrationLocked: true
+        };
+
+        // --- 0. PARTICIPANT LOGIC ---
+        async function fetchParticipants() {
+            const { data, error } = await supabase
+                .from('participants')
+                .select('nickname');
+            
+            if(error) { console.error("Erro participantes:", error); return; }
+            
+            state.participants = data ? data.map(p => p.nickname) : [];
+            const countEl = document.getElementById('participant-count');
+            if(countEl) countEl.innerText = state.participants.length;
+            
+            if(state.participants.length > 0) {
+                startFloatingNames();
+            }
+        }
+
+        async function confirmParticipation() {
+            const nickname = document.getElementById('player-nickname').value.trim();
+            const realname = document.getElementById('player-realname').value.trim();
+            
+            if(!nickname) { alert("Por favor, insira seu Nickname."); return; }
+            
+            const btn = document.getElementById('btn-confirm-join');
+            btn.innerText = "Enviando...";
+            btn.disabled = true;
+
+            const { error } = await supabase
+                .from('participants')
+                .insert([{ nickname, realname }]);
+
+            if(error) {
+                alert("Erro: " + error.message);
+            } else {
+                alert("Sua presença foi confirmada, guerreiro!");
+                closeJoinModal();
+                state.participants.push(nickname);
+                document.getElementById('participant-count').innerText = state.participants.length;
+                createFloatingName(nickname);
+            }
+            btn.innerText = "Confirmar Presença";
+            btn.disabled = false;
+        }
+
+        function startFloatingNames() {
+             const container = document.getElementById('floating-names-container');
+             state.participants.forEach((name, i) => {
+                 setTimeout(() => createFloatingName(name), i * 800); 
+             });
+             
+             setInterval(() => {
+                 if(state.participants.length > 0) {
+                     const randomName = state.participants[Math.floor(Math.random() * state.participants.length)];
+                     createFloatingName(randomName);
+                 }
+             }, 2500);
+        }
+
+        function createFloatingName(name) {
+            const container = document.getElementById('floating-names-container');
+            const el = document.createElement('div');
+            el.innerText = name;
+            el.className = 'floating-name animate-float-up';
+            el.style.left = `${Math.floor(Math.random() * 90) + 5}%`;
+            el.style.fontSize = `${(Math.random() * 0.5) + 0.8}rem`;
+            el.style.animationDuration = `${Math.floor(Math.random() * 10) + 10}s`;
+            container.appendChild(el);
+            setTimeout(() => { el.remove(); }, 20000);
+        }
+
+        function openJoinModal() { document.getElementById('join-modal').classList.remove('hidden'); }
+        function closeJoinModal() { document.getElementById('join-modal').classList.add('hidden'); }
+
+        // --- 1. UPLOAD IMAGE LOGIC ---
+        function previewBanner(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('banner-preview-img');
+                    const area = document.getElementById('banner-preview-area');
+                    img.src = e.target.result;
+                    img.classList.remove('hidden');
+                    area.classList.add('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function uploadBannerImage(file) {
+            const fileExt = file.name.split('.').pop();
+            const fileName = `banner_${Date.now()}.${fileExt}`; 
+            const filePath = `${fileName}`;
+
+            const { data, error } = await supabase.storage
+                .from('clan-banners') 
+                .upload(filePath, file);
+
+            if (error) throw error;
+
+            const { data: publicUrlData } = supabase.storage
+                .from('clan-banners')
+                .getPublicUrl(filePath);
+
+            return publicUrlData.publicUrl;
+        }
+
+        // --- ELECTION LOGIC ---
+        async function fetchCandidates() {
+            const { data, error } = await supabase
+                .from('candidates')
+                .select('*')
+                .order('votes', { ascending: false });
+
+            if (error) {
+                console.error("Erro candidatos:", error);
+                renderElectionUI(); // Force UI update anyway
+                return;
+            }
+
+            state.candidates = data || [];
+            renderElectionUI();
+        }
+
+        async function registerCandidateForElection() {
+            const name = document.getElementById('new-candidate-name').value.trim();
+            const slogan = document.getElementById('candidate-slogan').value.trim();
+            const strategy = document.getElementById('candidate-farm').value;
+            
+            if (!name || !slogan) { alert("Preencha todos os campos!"); return; }
+            
+            if(state.candidates.some(c => c.name.toLowerCase() === name.toLowerCase())) {
+                alert("Este candidato já está inscrito."); return;
+            }
+
+            const btn = document.getElementById('btn-candidatar');
+            btn.innerText = "Enviando...";
+            btn.disabled = true;
+
+            const { error } = await supabase
+                .from('candidates')
+                .insert([{ name, slogan, strategy }]);
+
+            if (error) {
+                alert("Erro: " + error.message);
+            } else {
+                alert("Candidatura registrada!");
+                document.getElementById('new-candidate-name').value = '';
+                document.getElementById('candidate-slogan').value = '';
+                fetchCandidates();
+            }
+            btn.innerText = "Candidatar-se";
+            btn.disabled = false;
+        }
+
+        async function submitMultiVote() {
+            const voterName = document.getElementById('voter-name').value.trim();
+            if (!voterName) { alert("Identifique-se para votar."); return; }
+            if (state.currentSelections.size !== 4) { alert("Selecione 4 candidatos."); return; }
+
+            const confirmBtn = document.getElementById('confirm-vote-btn');
+            confirmBtn.innerText = "Computando...";
+            confirmBtn.disabled = true;
+
+            const selectedIds = Array.from(state.currentSelections);
+            const votesToInsert = selectedIds.map(candId => ({ voter_name: voterName, candidate_id: candId }));
+
+            const { error } = await supabase.from('votes').insert(votesToInsert);
+            if (error) { alert("Erro: " + error.message); confirmBtn.innerText = "Confirmar"; confirmBtn.disabled = false; return; }
+
+            for (let id of selectedIds) {
+                const cand = state.candidates.find(c => c.id === id);
+                await supabase.from('candidates').update({ votes: cand.votes + 1 }).eq('id', id);
+            }
+
+            alert("Votos confirmados!");
+            state.currentSelections.clear();
+            confirmBtn.innerText = "Confirmar Votos";
+            confirmBtn.disabled = false;
+            fetchCandidates();
+        }
+
+        function revealResults() {
+             const password = prompt("Senha de Admin para revelar resultados:");
+             if(password === "TEBAS") {
+                 state.resultsRevealed = true;
+                 renderElectionUI();
+                 toggleRegistrationLock(true);
+             } else {
+                 alert("Acesso negado.");
+             }
+        }
+        
+        function toggleRegistrationLock(isOpen) {
+            const lockMsg = document.getElementById('registration-locked-msg');
+            const formContainer = document.getElementById('registration-form-container');
+            state.registrationLocked = !isOpen;
+            if(isOpen) {
+                lockMsg.classList.add('hidden');
+                formContainer.classList.remove('hidden');
+                formContainer.classList.add('grid'); 
+            } else {
+                lockMsg.classList.remove('hidden');
+                formContainer.classList.add('hidden');
+                formContainer.classList.remove('grid');
+            }
+        }
+
+        function renderElectionUI() {
+            const listEl = document.getElementById('candidates-list');
+            const countEl = document.getElementById('candidate-count-display');
+            const statusText = document.getElementById('election-status-text');
+            const acclamationMsg = document.getElementById('acclamation-msg');
+            const voterBox = document.getElementById('voter-identity-box');
+            const candidateFormBox = document.getElementById('candidate-form-box');
+            const selectedCountDisplay = document.getElementById('selected-count-display');
+            const confirmBtn = document.getElementById('confirm-vote-btn');
+
+            const totalCandidates = state.candidates.length;
+            
+            if(selectedCountDisplay) {
+                selectedCountDisplay.innerText = state.currentSelections.size;
+                if(state.currentSelections.size === 4) {
+                    selectedCountDisplay.classList.remove('text-gold');
+                    selectedCountDisplay.classList.add('text-emerald-400');
+                    confirmBtn.disabled = false;
+                    confirmBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                } else {
+                    selectedCountDisplay.classList.add('text-gold');
+                    selectedCountDisplay.classList.remove('text-emerald-400');
+                    confirmBtn.disabled = true;
+                    confirmBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+            }
+
+            if (state.resultsRevealed) {
+                // Results logic...
+                return;
+            }
+
+            countEl.innerText = `${totalCandidates} Candidatos`;
+            const isVotingPhase = totalCandidates > 4;
+            
+            if(isVotingPhase) {
+                statusText.innerText = "VOTAÇÃO ABERTA";
+                statusText.className = "text-purple-400 font-bold animate-pulse";
+                acclamationMsg.classList.add('hidden');
+                voterBox.classList.remove('hidden');
+                candidateFormBox.classList.add('hidden'); 
+            } else {
+                statusText.innerText = "Inscrições Abertas";
+                statusText.className = "text-white font-bold";
+                acclamationMsg.classList.remove('hidden');
+                voterBox.classList.add('hidden');
+                candidateFormBox.classList.remove('hidden');
+            }
+
+            listEl.innerHTML = '';
+            listEl.className = "grid grid-cols-1 md:grid-cols-2 gap-4";
+
+            if(state.candidates.length === 0) {
+                 listEl.innerHTML = '<div class="text-gray-500 italic col-span-2 text-center py-10">Nenhum candidato se apresentou ainda.</div>';
+                 return;
+            }
+
+            state.candidates.forEach((c) => {
+                const isSelected = state.currentSelections.has(c.id);
+                const item = document.createElement('div');
+                let classes = isVotingPhase ? `cursor-pointer hover:border-purple-500 ${isSelected ? 'border-emerald-500 bg-emerald-900/10' : 'border-stone-700'}` : 'border-stone-700';
+                item.className = `bg-stone-900 border p-4 rounded relative transition-all ${classes}`;
+                if(isVotingPhase) item.onclick = () => toggleCandidateSelection(c.id);
+                item.innerHTML = `<div class="flex justify-between"><h4 class="font-bold text-white">${c.name}</h4></div><p class="text-sm text-gray-400 italic">"${c.slogan}"</p>`;
+                listEl.appendChild(item);
+            });
+        }
+
+        function toggleCandidateSelection(id) {
+            if(state.currentSelections.has(id)) state.currentSelections.delete(id);
+            else {
+                if(state.currentSelections.size >= 4) { alert("Max 4."); return; }
+                state.currentSelections.add(id);
+            }
+            renderElectionUI();
+        }
+
+        // --- DATABASE LOGIC (CLANS) ---
+        async function fetchClans() {
+            const { data } = await supabase.from('clans').select('*').order('created_at', { ascending: true });
+            state.registeredClans = []; state.takenEconomies.clear(); state.takenColors.clear();
+            document.getElementById('clan-list').innerHTML = '';
+            
+            if (data && data.length > 0) {
+                data.forEach(c => {
+                    state.registeredClans.push(c);
+                    state.takenEconomies.add(c.economy_type);
+                    state.takenColors.add(c.color);
+                    updateClanListUi(c.name, c.motto, c.color, c.theme, c.leader, c.coleader, c.members, c.economy, c.id, c.banner_url);
+                    updateEconomyUi(c.economy_type);
+                });
+            } else {
+                 document.getElementById('clan-list').innerHTML = `<div class="text-center text-gray-500 mt-20 italic">Nenhum clã.</div>`;
+            }
+            renderGlassPicker();
+            updateClanCountUi();
+            if(state.registeredClans.length >= 4) document.getElementById('limit-reached-msg').classList.remove('hidden');
+        }
+        
+        async function registerClan() {
+             const name = document.getElementById('clan-name').value;
+             const motto = document.getElementById('clan-motto').value;
+             const color = document.getElementById('clan-color').value;
+             const theme = document.getElementById('clan-theme').value;
+             const leader = document.getElementById('clan-leader').value;
+             const coleader = document.getElementById('clan-coleader').value;
+             const members = document.getElementById('clan-members').value;
+             const economy = document.getElementById('clan-economy-input').value;
+             const economyType = document.getElementById('clan-economy-type').value;
+             const bannerFile = document.getElementById('clan-banner-file').files[0];
+             
+             const btn = document.getElementById('register-btn');
+             btn.disabled = true;
+             
+             try {
+                 let bannerUrl = null;
+                 if(bannerFile) bannerUrl = await uploadBannerImage(bannerFile);
+                 await supabase.from('clans').insert([{name, motto, color, theme, leader, coleader, members, economy, economy_type: economyType, banner_url: bannerUrl}]);
+                 alert("Sucesso!");
+                 fetchClans();
+                 document.getElementById('clan-form').reset();
+             } catch(e) { alert(e.message); }
+             btn.disabled = false;
+        }
+        
+        async function deleteClan(id) { if(prompt("Senha:") === "TEBAS") { await supabase.from('clans').delete().eq('id', id); fetchClans(); } }
+        
+        function updateClanListUi(name, motto, color, themeKey, leader, coleader, membersStr, economyName, id, bannerUrl) {
+             const list = document.getElementById('clan-list');
+             const div = document.createElement('div');
+             let bg = bannerUrl ? `background-image: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.9)), url('${bannerUrl}'); background-size: cover;` : '';
+             div.className = "bg-stone-900 p-6 rounded border-l-4 relative overflow-hidden mb-4";
+             div.style.cssText = `border-color: ${color}; ${bg}`;
+             div.innerHTML = `<h3 class="text-2xl font-bold text-white relative z-10">${name}</h3><p class="text-gray-300 relative z-10">${motto}</p><button onclick="deleteClan(${id})" class="absolute top-2 right-2 text-red-500 z-20 bg-black/50 rounded p-1"><span class="material-symbols-outlined">delete</span></button>`;
+             list.prepend(div);
+        }
+
+        function updateEconomyUi(type) { 
+             const el = document.getElementById('opt-' + type);
+             if(el) { el.classList.add('farm-taken'); el.onclick = null; }
+        }
+        
+        function copyColorCode() { 
+            navigator.clipboard.writeText(document.getElementById('clan-color').value);
+        }
+        function updateClanCountUi() { document.getElementById('clan-count').innerText = `(${state.registeredClans.length}/4)`; }
+        function updateThemeInfo() { /* ... */ }
+        function validateMembers() { return true; }
+        
+        function renderEconomyGrid() {
+             const grid = document.getElementById('economy-grid');
+             if(!grid) return;
+             const opts = [
+                 {id:'iron', name:'Caminho do Aço', desc:'Ferro Infinito', icon:'shield', img:'img/farm-de-ferro.jpg'},
+                 {id:'gold', name:'Caminho da Riqueza', desc:'Ouro Infinito', icon:'payments', img:'img/farm-de-ouro.jpg'},
+                 {id:'raid', name:'Caminho da Vida', desc:'Totens Infinitos', icon:'local_fire_department', img:'img/raid-farm.jpg'},
+                 {id:'xp', name:'Caminho do Encanto', desc:'XP Massivo', icon:'bolt', img:'img/farm-de-xp.jpg'}
+             ];
+             grid.innerHTML = opts.map(o => `
+                <div id="opt-${o.id}" class="bg-obsidian border border-stone-600 p-6 rounded-lg cursor-pointer relative overflow-hidden group h-full" onclick="selectFarm('${o.id}')">
+                    <div class="absolute inset-0 z-0"><img src="${o.img}" class="w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                    <div class="relative z-10 text-center">
+                        <span class="material-symbols-outlined text-5xl mb-2 text-white">${o.icon}</span>
+                        <h4 class="text-xl font-heading text-white group-hover:text-gold">${o.name}</h4>
+                        <p class="text-xs text-gray-400 uppercase">${o.desc}</p>
+                    </div>
+                </div>
+             `).join('');
+        }
+
+        // --- 4. War Mode Toggle ---
+        let isPurgeMode = false;
+        function toggleWarMode() {
+             isPurgeMode = !isPurgeMode;
+             const btn = document.getElementById('mode-toggle');
+             const circle = document.getElementById('toggle-circle');
+             const icon = document.getElementById('toggle-icon');
+             const bg = document.getElementById('rules-bg');
+             const container = document.getElementById('rules-container');
+             const title = document.getElementById('rules-title');
+             const pvpText = document.getElementById('pvp-text');
+             const baseText = document.getElementById('base-text');
+             const statusText = document.getElementById('status-text');
+             const pvpIcon = document.getElementById('pvp-icon');
+             const baseIcon = document.getElementById('base-icon');
+
+             if (isPurgeMode) {
+                 btn.classList.replace('bg-gray-700', 'bg-red-900');
+                 circle.classList.add('translate-x-10');
+                 icon.innerText = 'skull';
+                 icon.classList.add('text-red-600');
+                 icon.classList.remove('text-black');
+                 if(bg) bg.classList.replace('bg-emerald-900', 'bg-red-900');
+                 if(container) container.classList.replace('border-stone-600', 'border-red-600');
+                 if(title) {
+                     title.innerText = "O Expurgo (Sáb/Dom/Feriados)";
+                     title.classList.replace('text-emerald-400', 'text-red-500');
+                 }
+                 if(pvpText) pvpText.innerHTML = "<span class='text-red-400 font-bold'>LIBERADO 24H.</span> O mapa inteiro é uma arena.";
+                 if(baseText) baseText.innerHTML = "SAQUE PERMITIDO (Baús/Fornalhas). <br><span class='text-xs text-red-400'>Lei da Destruição: Quebre o necessário para entrar. Proibido demolir por maldade.</span>";
+                 if(baseIcon) baseIcon.innerText = 'meeting_room';
+                 if(baseIcon) baseIcon.classList.add('text-red-500');
+                 if(statusText) {
+                     statusText.innerText = "🩸 CAOS E SAQUE";
+                     statusText.classList.replace('text-emerald-500', 'text-red-500');
+                 }
+             } else {
+                 btn.classList.replace('bg-red-900', 'bg-gray-700');
+                 circle.classList.remove('translate-x-10');
+                 icon.innerText = 'radio_button_unchecked';
+                 icon.classList.remove('text-red-600');
+                 icon.classList.add('text-black');
+                 if(bg) bg.classList.replace('bg-red-900', 'bg-emerald-900');
+                 if(container) container.classList.replace('border-red-600', 'border-stone-600');
+                 if(title) {
+                     title.innerText = "Segunda a Sexta";
+                     title.classList.replace('text-red-500', 'text-emerald-400');
+                 }
+                 if(pvpText) pvpText.innerText = "Permitido apenas durante a NOITE (no jogo). De dia, só duelos aceitos.";
+                 if(pvpIcon) pvpIcon.classList.remove('text-red-500');
+                 if(baseText) baseText.innerText = "INTOCÁVEIS. Proibido invadir terreno inimigo.";
+                 if(baseIcon) baseIcon.innerText = 'fort';
+                 if(baseIcon) baseIcon.classList.remove('text-red-500');
+                 if(statusText) {
+                     statusText.innerText = "🕊️ CONSTRUÇÃO E DIPLOMACIA";
+                     statusText.classList.replace('text-red-500', 'text-emerald-500');
+                 }
+             }
+        }
+
+        // --- INIT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderEconomyGrid();
+            renderGlassPicker();
+            
+            // Load Data from DB
+            fetchParticipants();
+            fetchCandidates();
+            fetchClans();
+            
+            // Misc
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            
+            const themeSelect = document.getElementById('clan-theme');
+            if(themeSelect) {
+                Object.keys(clanThemes).forEach(key => {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.text = `${clanThemes[key].symbol} ${key}`;
+                    themeSelect.appendChild(option);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
