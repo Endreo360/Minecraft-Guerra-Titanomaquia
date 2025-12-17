@@ -346,13 +346,13 @@
                          <span class="bg-red-700 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Clã Vermelho</span>
                     </div>
                     <div class="h-64 bg-gradient-to-b from-red-900/20 to-obsidian relative leader-img-container flex items-center justify-center">
-                        <img src="https://placehold.co/200x300/8B0000/FFF?text=Trojan+3D" alt="Trojan" class="h-full object-contain relative z-10 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
+                        <img src="https://placehold.co/200x300/8B0000/FFF?text=Omega+3D" alt="Omega" class="h-full object-contain relative z-10 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
                         <div class="absolute inset-0 border-b border-gold/30"></div>
                     </div>
                     <div class="p-6 text-center relative z-10">
-                        <h3 class="text-2xl font-heading text-white font-bold mb-1">Trojan</h3>
+                        <h3 class="text-2xl font-heading text-white font-bold mb-1">Omega</h3>
                         <div class="h-px w-12 bg-red-600 mx-auto mb-4"></div>
-                        <p class="text-sm text-gray-300 italic font-body">"Farm de ferro vem pro papai"</p>
+                        <p class="text-sm text-gray-300 italic font-body">"Sangue de Ferro, alma de aço."</p>
                         <div class="mt-4 pt-4 border-t border-red-900/30">
                             <span class="material-symbols-outlined text-red-500">swords</span>
                         </div>
@@ -905,11 +905,19 @@
 
         // Dados Fixos (Temas de Clã e Cores)
         const clanThemes = {
-            "Imperio": { symbol: "crown", leader: "Imperador", coleader: "General", member: "Soldado" },
-            "Reino": { symbol: "shield", leader: "Rei", coleader: "Mão do Rei", member: "Cavaleiro" },
-            "Ordem": { symbol: "balance", leader: "Grão-Mestre", coleader: "Senhor", member: "Paladino" },
-            "Horda": { symbol: "skull", leader: "Chefe de Guerra", coleader: "Campeão", member: "Saqueador" },
-            "Sindicato": { symbol: "visibility", leader: "Patriarca", coleader: "Conselheiro", member: "Agente" }
+            "LEGADO": { symbol: "Ω", desc: "\"Nascidos no fogo, forjados no mito.\" A imortalidade não é dada, é conquistada pela espada. Lutem para serem eternos.", leader: "ARCONTE", coleader: "EXECUTOR", member: "ESPARTANOS" },
+            "ONISCIÊNCIA": { symbol: "☥", desc: "\"Os olhos que veem além do véu.\" Enquanto o mundo tropeça no escuro, vocês caminham guiados pela certeza divina.", leader: "ORÁCULO", coleader: "ARAUTO", member: "ASCENDENTES" },
+            "IMPÉRIO": { symbol: "♛", desc: "\"A ordem imposta pelo ferro.\" A arquitetura da conquista perfeita. Onde a águia pousa, o joelho se dobra.", leader: "IMPERADOR", coleader: "LEGATUS", member: "PRETORIANOS" },
+            "MILITAR": { symbol: "⚔", desc: "\"A tempestade de aço.\" Sem política, apenas estratégia. Vocês são a brutal e honesta realidade da linha de frente.", leader: "SOBERANO", coleader: "MARECHAL", member: "VANGUARDA" },
+            "MAJESTADE": { symbol: "⚓", desc: "\"O sol nunca se põe aqui.\" Reivindiquem a terra e o mar por direito de sangue. A expansão é a única lei.", leader: "IMPERADOR", coleader: "ALMIRANTE", member: "CAVALEIROS" },
+            "OCULTO": { symbol: "☾", desc: "\"O poder verdadeiro consome.\" Sirvam às sombras antigas. Façam do medo seu aliado e da escuridão o seu lar.", leader: "PRIMORDIAL", coleader: "PROFETA", member: "ACÓLITOS" },
+            "DOUTRINA": { symbol: "†", desc: "\"Uma fé. Um caminho. Uma verdade.\" Dúvida é fraqueza. Lealdade absoluta a um propósito sagrado é a força.", leader: "MESTRE", coleader: "APÓSTOLO", member: "DISCÍPULOS" },
+            "JUSTIÇA": { symbol: "⚖", desc: "\"A lei é a âncora do mundo.\" Vocês são a balança que julga as almas e a espada fria que executa a sentença.", leader: "TETRARCA", coleader: "JUSTIÇAR", member: "PATRICIANOS" },
+            "NOBREZA": { symbol: "⚜", desc: "\"O sangue azul não se mistura.\" Vençam a guerra antes da batalha começar. Poder, ouro e influência governam tudo.", leader: "DUQUE", coleader: "CHANCELER", member: "MARQUÊSES" },
+            "HONRA": { symbol: "❀", desc: "\"A morte é leve; o dever, uma montanha.\" A perfeição marcial encontra a paz interior. Cada corte é um tributo solene.", leader: "SHOGUN", coleader: "TAISHO", member: "KENSEI" },
+            "SOBERANIA": { symbol: "♚", desc: "\"Nossa terra, nosso trono.\" O juramento feudal é inquebrável. Vocês são os legítimos donos do solo.", leader: "MONARCA", coleader: "LORDE", member: "BARÕES" },
+            "PIRATA": { symbol: "☠", desc: "\"Parte do navio, parte da tripulação.\" Vocês não navegam sobre as águas, vocês emergem delas.", leader: "LORDE PIRATA", coleader: "IMEDIATO", member: "SAQUEADORES" },
+            "LAS NOCHES": { symbol: "🌒", desc: "\"Não há nada além do medo para aqueles que não conseguem evoluir.\" Quebrem as barreiras da existência e governem o vazio.", leader: "TRANSCENDENTAL", coleader: "GOVERNANTE", member: "ESPADAS" }
         };
 
         const glassColors = [
@@ -1211,3 +1219,4 @@
     </script>
 </body>
 </html>
+
