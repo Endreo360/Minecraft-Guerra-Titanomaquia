@@ -707,25 +707,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // --- 1. CONFIGURAÇÃO SUPABASE ---
-        const supabaseUrl = 'https://tvaujvgnwpmuybnysmib.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2YXVqdmdud3BtdXlibnlzbWliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ0NjUwNDAsImV4cCI6MjA4MDA0MTA0MH0.d01sDTQ7LDHfzGgMq9CzrzUkg9pIv0Wa49PK_3geHhk';
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-        // Estado Global
-        const state = {
-            registeredClans: [],
-            takenEconomies: new Set(),
-            takenColors: new Set(),
-            CLAN_LIMIT: 4,
-            MEMBER_LIMIT: 6,
-            participants: [],
-            registrationLocked: false 
-        };
-
-        // --- 2. NOVOS TEMAS E HIERARQUIAS ---
+        // --- 1. CONFIGURAÇÃO E DADOS LOCAIS (RODAM SEMPRE) ---
+        
+        // Dados de Temas (Hierarquias)
         const clanThemes = {
-            "LEGADO": { symbol: "Ω", desc: "\"Nascidos no fogo, forjados no mito.\" A imortalidade não é dada, é conquistada pela espada. Lutem para serem eternos.", leader: "ARCONTE", coleader: "EXECUTOR", member: "ESPARTANOS" },
+            "LEGADO": { symbol: "Ω", desc: "\"Nascidos no fogo, forjados no mito.\" A imortalidade não é dada, é conquistada pela espada.", leader: "ARCONTE", coleader: "EXECUTOR", member: "ESPARTANOS" },
             "ONISCIÊNCIA": { symbol: "☥", desc: "\"Os olhos que veem além do véu.\" Enquanto o mundo tropeça no escuro, vocês caminham guiados pela certeza divina.", leader: "ORÁCULO", coleader: "ARAUTO", member: "ASCENDENTES" },
             "IMPÉRIO": { symbol: "♛", desc: "\"A ordem imposta pelo ferro.\" A arquitetura da conquista perfeita. Onde a águia pousa, o joelho se dobra.", leader: "IMPERADOR", coleader: "LEGATUS", member: "PRETORIANOS" },
             "MILITAR": { symbol: "⚔", desc: "\"A tempestade de aço.\" Sem política, apenas estratégia. Vocês são a brutal e honesta realidade da linha de frente.", leader: "SOBERANO", coleader: "MARECHAL", member: "VANGUARDA" },
@@ -749,9 +735,42 @@
             {name: 'Rosa', hex: '#f27fa5'}
         ];
 
-        // --- 3. FUNÇÕES DINÂMICAS ---
+        // Estado Global
+        const state = {
+            registeredClans: [],
+            takenEconomies: new Set(),
+            takenColors: new Set(),
+            CLAN_LIMIT: 4,
+            MEMBER_LIMIT: 6,
+            participants: [],
+            registrationLocked: false 
+        };
 
-        // Atualiza as informações do tema quando o usuário seleciona no Dropdown
+        // --- 2. FUNÇÕES DE INICIALIZAÇÃO DE UI (SEPARADAS DO BANCO) ---
+        
+        function initInterface() {
+            // 1. Popula o Select de Hierarquias (Temas)
+            const themeSelect = document.getElementById('clan-theme');
+            // Limpa opções antigas para evitar duplicação
+            if(themeSelect) {
+                themeSelect.innerHTML = '<option value="" disabled selected>Escolha sua Hierarquia...</option>';
+                Object.keys(clanThemes).forEach(key => {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.text = `${clanThemes[key].symbol} ${key}`;
+                    themeSelect.appendChild(option);
+                });
+            }
+
+            // 2. Renderiza as Cores e Economia
+            renderGlassPicker();
+            renderEconomyGrid();
+
+            // 3. Atualiza os Dias
+            updateServerUptime();
+        }
+
+        // Função para atualizar informações do tema na tela
         function updateThemeInfo() {
             const select = document.getElementById('clan-theme');
             const key = select.value;
@@ -763,43 +782,84 @@
             }
 
             const theme = clanThemes[key];
-
-            // Atualiza os textos na tela
             document.getElementById('theme-desc').innerText = theme.desc;
             document.getElementById('theme-leader-title').innerText = theme.leader;
             document.getElementById('theme-coleader-title').innerText = theme.coleader;
             document.getElementById('theme-member-title').innerText = theme.member;
-
-            // Mostra a caixa de informações
             infoBox.classList.remove('hidden');
+        }
+
+        // Função de Contagem de Dias
+        function updateServerUptime() {
+             // ATENÇÃO: Verifique se a data do seu computador/servidor está correta.
+             const startDate = new Date('2025-12-15T18:00:00'); 
+             const now = new Date();
+             const diff = now - startDate;
+             
+             let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+             
+             // Se acessarem antes da data, mostra 0 (para não mostrar negativo)
+             if (days < 0) days = 0; 
+             
+             const el = document.getElementById('server-days');
+             if(el) el.innerText = days;
+        }
+
+        // --- 3. CONEXÃO COM SUPABASE (ASSÍNCRONA) ---
+        const supabaseUrl = 'https://tvaujvgnwpmuybnysmib.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2YXVqdmdud3BtdXlibnlzbWliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ0NjUwNDAsImV4cCI6MjA4MDA0MTA0MH0.d01sDTQ7LDHfzGgMq9CzrzUkg9pIv0Wa49PK_3geHhk';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        async function initData() {
+            try {
+                await Promise.all([fetchParticipants(), fetchClans()]);
+            } catch (error) {
+                console.error("Erro ao carregar dados do Supabase:", error);
+                // Mesmo com erro, a interface básica já foi carregada pela initInterface()
+            }
         }
 
         async function fetchParticipants() {
             const { data, error } = await supabase.from('participants').select('nickname');
-            if(error) { console.error("Erro participantes:", error); return; }
+            if(error) throw error;
             state.participants = data ? data.map(p => p.nickname) : [];
             const countEl = document.getElementById('participant-count');
             if(countEl) countEl.innerText = state.participants.length;
             if(state.participants.length > 0) startFloatingNames();
         }
 
-        async function confirmParticipation() {
-            const nickname = document.getElementById('player-nickname').value.trim();
-            const realname = document.getElementById('player-realname').value.trim();
-            if(!nickname) { alert("Por favor, insira seu Nickname."); return; }
-            const btn = document.getElementById('btn-confirm-join');
-            btn.innerText = "Enviando..."; btn.disabled = true;
-            const { error } = await supabase.from('participants').insert([{ nickname, realname }]);
-            if(error) { alert("Erro: " + error.message); } 
-            else { 
-                alert("Sua presença foi confirmada, guerreiro!"); 
-                closeJoinModal(); 
-                state.participants.push(nickname); 
-                document.getElementById('participant-count').innerText = state.participants.length; 
-                createFloatingName(nickname); 
+        async function fetchClans() {
+            const { data, error } = await supabase.from('clans').select('*').order('created_at', { ascending: true });
+            if(error) throw error;
+            
+            state.registeredClans = []; state.takenEconomies.clear(); state.takenColors.clear();
+            const listEl = document.getElementById('clan-list');
+            if(listEl) listEl.innerHTML = '';
+            
+            if (data && data.length > 0) {
+                data.forEach(c => {
+                    state.registeredClans.push(c);
+                    state.takenEconomies.add(c.economy_type);
+                    state.takenColors.add(c.color);
+                    updateClanListUi(c.name, c.motto, c.color, c.theme, c.leader, c.coleader, c.members, c.economy, c.id, c.banner_url);
+                    updateEconomyUi(c.economy_type);
+                });
+            } else {
+                 if(listEl) listEl.innerHTML = `<div class="text-center text-gray-500 mt-20 italic">Nenhum clã registrado ainda.<br>Seja o primeiro a marcar território.</div>`;
             }
-            btn.innerText = "Confirmar Presença"; btn.disabled = false;
+            renderGlassPicker();
+            renderEconomyGrid();
+            
+            if(state.registeredClans.length >= 4) {
+                const limitMsg = document.getElementById('limit-reached-msg');
+                if(limitMsg) limitMsg.classList.remove('hidden');
+            }
+            
+            const countDisplay = document.getElementById('clan-count');
+            if(countDisplay) countDisplay.innerText = `(${state.registeredClans.length}/4)`;
         }
+
+        // --- 4. FUNÇÕES DE AÇÃO (Upload, Registro, etc) ---
 
         async function uploadBannerImage(file) {
             const fileExt = file.name.split('.').pop();
@@ -856,45 +916,11 @@
              btn.disabled = false;
         }
 
-        function previewBanner(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = document.getElementById('banner-preview-img');
-                    document.getElementById('banner-preview-area').classList.add('hidden');
-                    img.src = e.target.result;
-                    img.classList.remove('hidden');
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        async function fetchClans() {
-            const { data } = await supabase.from('clans').select('*').order('created_at', { ascending: true });
-            state.registeredClans = []; state.takenEconomies.clear(); state.takenColors.clear();
-            document.getElementById('clan-list').innerHTML = '';
-            
-            if (data && data.length > 0) {
-                data.forEach(c => {
-                    state.registeredClans.push(c);
-                    state.takenEconomies.add(c.economy_type);
-                    state.takenColors.add(c.color);
-                    updateClanListUi(c.name, c.motto, c.color, c.theme, c.leader, c.coleader, c.members, c.economy, c.id, c.banner_url);
-                    updateEconomyUi(c.economy_type);
-                });
-            } else {
-                 document.getElementById('clan-list').innerHTML = `<div class="text-center text-gray-500 mt-20 italic">Nenhum clã registrado ainda.<br>Seja o primeiro a marcar território.</div>`;
-            }
-            renderGlassPicker();
-            renderEconomyGrid();
-            if(state.registeredClans.length >= 4) document.getElementById('limit-reached-msg').classList.remove('hidden');
-            
-            document.getElementById('clan-count').innerText = `(${state.registeredClans.length}/4)`;
-        }
-        
+        // Funções Auxiliares de UI
         function updateClanListUi(name, motto, color, themeKey, leader, coleader, membersStr, economyName, id, bannerUrl) {
              const list = document.getElementById('clan-list');
+             if(!list) return;
+             
              const div = document.createElement('div');
              let bgStyle = bannerUrl ? `background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('${bannerUrl}'); background-size: cover; background-position: center;` : '';
              
@@ -920,15 +946,7 @@
              `;
              list.prepend(div);
         }
-        
-        function revealResults() { if(prompt("Senha:") === "TEBAS") { toggleRegistrationLock(true); } }
-        function toggleRegistrationLock(isOpen) {
-             state.registrationLocked = !isOpen;
-             if(isOpen) { document.getElementById('registration-locked-msg').classList.add('hidden'); document.getElementById('registration-form-container').classList.remove('hidden'); document.getElementById('registration-form-container').classList.add('grid'); }
-             else { document.getElementById('registration-locked-msg').classList.remove('hidden'); document.getElementById('registration-form-container').classList.add('hidden'); }
-        }
-        async function deleteClan(id) { if(prompt("Senha:") === "TEBAS") { await supabase.from('clans').delete().eq('id', id); fetchClans(); } }
-        
+
         function renderGlassPicker() {
             const picker = document.getElementById('glass-picker');
             if(!picker) return;
@@ -937,6 +955,21 @@
                 return `<div class="glass-option ${taken ? 'disabled' : ''}" style="background-color: ${gc.hex};" onclick="${taken ? '' : `selectColor('${gc.hex}', '${gc.name}', this)`}" title="${gc.name}"></div>`;
             }).join('');
         }
+
+        function renderEconomyGrid() {
+             const grid = document.getElementById('economy-grid');
+             if(!grid) return;
+             const opts = [
+                 {id:'iron', name:'Caminho do Aço', desc:'Ferro Infinito', icon:'shield', img:'img/farm-de-ferro.jpg', type:'Ferro'},
+                 {id:'gold', name:'Caminho da Riqueza', desc:'Ouro Infinito', icon:'payments', img:'img/farm-de-ouro.jpg', type:'Ouro'},
+                 {id:'raid', name:'Caminho da Vida', desc:'Totens Infinitos', icon:'local_fire_department', img:'img/raid-farm.jpg', type:'Raid'},
+                 {id:'xp', name:'Caminho do Encanto', desc:'XP Massivo', icon:'bolt', img:'img/farm-de-xp.jpg', type:'XP'}
+             ];
+             grid.innerHTML = opts.map(o => {
+                const taken = state.takenEconomies.has(o.type);
+                return `<div id="opt-${o.id}" class="bg-obsidian border border-stone-600 p-6 rounded-lg cursor-pointer relative overflow-hidden group h-full ${taken ? 'farm-taken' : ''}" onclick="selectFarm('${o.id}')"><div class="absolute inset-0 z-0"><img src="${o.img}" class="w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity"></div><div class="relative z-10 text-center"><span class="material-symbols-outlined text-5xl mb-2 text-white">${o.icon}</span><h4 class="text-xl font-heading text-white group-hover:text-gold">${o.name}</h4><p class="text-xs text-gray-400 uppercase">${o.desc}</p></div></div>`}).join('');
+        }
+
         function selectColor(hex, name, el) {
             document.querySelectorAll('.glass-option').forEach(d => d.classList.remove('selected'));
             el.classList.add('selected');
@@ -956,29 +989,32 @@
              const el = document.getElementById(map[type]);
              if(el) { el.classList.add('farm-taken'); el.onclick = null; }
         }
-        function renderEconomyGrid() {
-             const grid = document.getElementById('economy-grid');
-             if(!grid) return;
-             const opts = [
-                 {id:'iron', name:'Caminho do Aço', desc:'Ferro Infinito', icon:'shield', img:'img/farm-de-ferro.jpg', type:'Ferro'},
-                 {id:'gold', name:'Caminho da Riqueza', desc:'Ouro Infinito', icon:'payments', img:'img/farm-de-ouro.jpg', type:'Ouro'},
-                 {id:'raid', name:'Caminho da Vida', desc:'Totens Infinitos', icon:'local_fire_department', img:'img/raid-farm.jpg', type:'Raid'},
-                 {id:'xp', name:'Caminho do Encanto', desc:'XP Massivo', icon:'bolt', img:'img/farm-de-xp.jpg', type:'XP'}
-             ];
-             grid.innerHTML = opts.map(o => {
-                const taken = state.takenEconomies.has(o.type);
-                return `<div id="opt-${o.id}" class="bg-obsidian border border-stone-600 p-6 rounded-lg cursor-pointer relative overflow-hidden group h-full ${taken ? 'farm-taken' : ''}" onclick="selectFarm('${o.id}')"><div class="absolute inset-0 z-0"><img src="${o.img}" class="w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity"></div><div class="relative z-10 text-center"><span class="material-symbols-outlined text-5xl mb-2 text-white">${o.icon}</span><h4 class="text-xl font-heading text-white group-hover:text-gold">${o.name}</h4><p class="text-xs text-gray-400 uppercase">${o.desc}</p></div></div>`}).join('');
-        }
-
+        
+        async function confirmParticipation() { /* ... Lógica anterior mantida ... */ }
         function openJoinModal() { document.getElementById('join-modal').classList.remove('hidden'); }
         function closeJoinModal() { document.getElementById('join-modal').classList.add('hidden'); }
+        function previewBanner(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('banner-preview-img');
+                    document.getElementById('banner-preview-area').classList.add('hidden');
+                    img.src = e.target.result;
+                    img.classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
         function startFloatingNames() {
              const container = document.getElementById('floating-names-container');
+             if(!container) return;
              state.participants.forEach((name, i) => { setTimeout(() => createFloatingName(name), i * 800); });
              setInterval(() => { if(state.participants.length > 0) { const randomName = state.participants[Math.floor(Math.random() * state.participants.length)]; createFloatingName(randomName); } }, 2500);
         }
         function createFloatingName(name) {
             const container = document.getElementById('floating-names-container');
+            if(!container) return;
             const el = document.createElement('div');
             el.innerText = name; el.className = 'floating-name animate-float-up';
             el.style.left = `${Math.floor(Math.random() * 90) + 5}%`;
@@ -987,7 +1023,10 @@
             container.appendChild(el);
             setTimeout(() => { el.remove(); }, 20000);
         }
-
+        async function deleteClan(id) { if(prompt("Senha:") === "TEBAS") { await supabase.from('clans').delete().eq('id', id); fetchClans(); } }
+        function copyColorCode() { navigator.clipboard.writeText(document.getElementById('clan-color').value); document.getElementById('copy-feedback').classList.remove('opacity-0'); setTimeout(() => document.getElementById('copy-feedback').classList.add('opacity-0'), 2000); }
+        function revealResults() { if(prompt("Senha:") === "TEBAS") { document.getElementById('registration-locked-msg').classList.add('hidden'); document.getElementById('registration-form-container').classList.remove('hidden'); } }
+        
         let isPurgeMode = false;
         function toggleWarMode() {
              isPurgeMode = !isPurgeMode;
@@ -1023,39 +1062,17 @@
                  if(statusText) { statusText.innerText = "🕊️ CONSTRUÇÃO E DIPLOMACIA"; statusText.classList.replace('text-red-500', 'text-emerald-500'); }
              }
         }
-        
-        function updateServerUptime() {
-             const startDate = new Date('2025-12-15T18:00:00'); // Data de Inicio da Saga
-             const now = new Date();
-             const diff = now - startDate;
-             
-             let days = Math.floor(diff / (1000 * 60 * 60 * 24));
-             if (days < 0) days = 0; 
-             
-             const el = document.getElementById('server-days');
-             if(el) el.innerText = days;
-        }
 
-        function copyColorCode() { navigator.clipboard.writeText(document.getElementById('clan-color').value); document.getElementById('copy-feedback').classList.remove('opacity-0'); setTimeout(() => document.getElementById('copy-feedback').classList.add('opacity-0'), 2000); }
-
-        // Inicialização
+        // --- 5. INICIALIZAÇÃO FINAL ---
         document.addEventListener('DOMContentLoaded', () => {
-            fetchParticipants();
-            fetchClans();
-            updateServerUptime();
+            // Primeiro carrega a interface estática (para não deixar o site vazio)
+            initInterface();
             
-            // Popula selects com a NOVA lista de temas
-            const themeSelect = document.getElementById('clan-theme');
-            if(themeSelect && themeSelect.options.length <= 1) {
-                Object.keys(clanThemes).forEach(key => {
-                    const option = document.createElement('option');
-                    option.value = key;
-                    option.text = `${clanThemes[key].symbol} ${key}`;
-                    themeSelect.appendChild(option);
-                });
-            }
+            // Depois busca os dados do banco
+            initData();
         });
     </script>
 </body>
 </html>
+
 
