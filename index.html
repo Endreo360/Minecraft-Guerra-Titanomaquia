@@ -327,8 +327,7 @@
             </div>
         </div>
     </section>
-
-    <section id="pantheom" class="py-24 bg-stone-900 border-b border-stone-800 fade-in-section relative">
+<section id="pantheom" class="py-24 bg-stone-900 border-b border-stone-800 fade-in-section relative">
          <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/black-scales.png')] opacity-20"></div>
          <div class="max-w-7xl mx-auto px-4 relative z-10">
              
@@ -346,13 +345,15 @@
                          <span class="bg-red-700 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Clã Vermelho</span>
                     </div>
                     <div class="h-64 bg-gradient-to-b from-red-900/20 to-obsidian relative leader-img-container flex items-center justify-center">
-                        <img src="https://placehold.co/200x300/8B0000/FFF?text=Omega+3D" alt="Omega" class="h-full object-contain relative z-10 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
+                        
+                        <img src="img/trojan.png" alt="Trojan" class="h-full object-contain relative z-10 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
+                        
                         <div class="absolute inset-0 border-b border-gold/30"></div>
                     </div>
                     <div class="p-6 text-center relative z-10">
                         <h3 class="text-2xl font-heading text-white font-bold mb-1">Omega</h3>
                         <div class="h-px w-12 bg-red-600 mx-auto mb-4"></div>
-                        <p class="text-sm text-gray-300 italic font-body">"Sangue de Ferro, alma de aço."</p>
+                        <p class="text-sm text-gray-300 italic font-body">"Corações de Ferro, Almas de Aço"</p>
                         <div class="mt-4 pt-4 border-t border-red-900/30">
                             <span class="material-symbols-outlined text-red-500">swords</span>
                         </div>
@@ -364,7 +365,9 @@
                          <span class="bg-stone-700 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider border border-white/20">Clã Preto</span>
                     </div>
                     <div class="h-64 bg-gradient-to-b from-stone-800/20 to-obsidian relative leader-img-container flex items-center justify-center">
-                        <img src="https://placehold.co/200x300/1a1a1a/FFF?text=LK+3D" alt="LK" class="h-full object-contain relative z-10 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
+                        
+                        <img src="img/lk.png" alt="LK" class="h-full object-contain relative z-10 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
+                        
                         <div class="absolute inset-0 border-b border-gold/30"></div>
                     </div>
                     <div class="p-6 text-center relative z-10">
@@ -382,7 +385,9 @@
                          <span class="bg-pink-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Clã Rosa</span>
                     </div>
                     <div class="h-64 bg-gradient-to-b from-pink-900/20 to-obsidian relative leader-img-container flex items-center justify-center">
-                        <img src="https://placehold.co/200x300/C71585/FFF?text=Soupyer+3D" alt="Soupyer" class="h-full object-contain relative z-10 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
+                        
+                        <img src="img/soupyer.png" alt="Soupyer" class="h-full object-contain relative z-10 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
+                        
                         <div class="absolute inset-0 border-b border-gold/30"></div>
                     </div>
                     <div class="p-6 text-center relative z-10">
@@ -400,7 +405,9 @@
                          <span class="bg-blue-700 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Clã Azul</span>
                     </div>
                     <div class="h-64 bg-gradient-to-b from-blue-900/20 to-obsidian relative leader-img-container flex items-center justify-center">
-                        <img src="https://placehold.co/200x300/00008B/FFF?text=Mattkk+3D" alt="Mattkk" class="h-full object-contain relative z-10 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
+                        
+                        <img src="img/mattkk.png" alt="Mattkk" class="h-full object-contain relative z-10 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
+                        
                         <div class="absolute inset-0 border-b border-gold/30"></div>
                     </div>
                     <div class="p-6 text-center relative z-10">
@@ -415,7 +422,7 @@
 
             </div>
          </div>
-    </section>
+</section>
 
     <section id="clas" class="py-20 px-4 relative bg-Greek-pattern fade-in-section">
         <div class="max-w-6xl mx-auto">
@@ -880,6 +887,52 @@
             </p>
         </div>
     </footer>
+    
+    <audio id="bg-music" loop>
+        <source src="tema.mp3" type="audio/mpeg"> </audio>
+
+    <div id="music-controls" class="fixed bottom-6 left-6 z-50 flex items-center gap-3 transition-all duration-500 opacity-50 hover:opacity-100">
+        <button onclick="toggleMusic()" class="w-12 h-12 rounded-full bg-black/80 border-2 border-gold text-gold flex items-center justify-center shadow-[0_0_15px_rgba(255,215,0,0.3)] hover:scale-110 hover:bg-gold hover:text-black transition-all group">
+            <span id="music-icon" class="material-symbols-outlined animate-pulse-slow">music_off</span>
+        </button>
+        <div id="equalizer" class="hidden h-6 flex gap-1 items-end">
+            <div class="w-1 bg-gold animate-[bounce_1s_infinite] h-3"></div>
+            <div class="w-1 bg-gold animate-[bounce_1.2s_infinite] h-5"></div>
+            <div class="w-1 bg-gold animate-[bounce_0.8s_infinite] h-2"></div>
+            <div class="w-1 bg-gold animate-[bounce_1.5s_infinite] h-4"></div>
+        </div>
+    </div>
+
+    <script>
+        const audio = document.getElementById('bg-music');
+        const musicIcon = document.getElementById('music-icon');
+        const equalizer = document.getElementById('equalizer');
+        let isPlaying = false;
+
+        audio.volume = 0.4; // Volume inicial (40%)
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                musicIcon.innerText = 'music_off';
+                musicIcon.classList.remove('animate-spin');
+                equalizer.classList.add('hidden');
+                isPlaying = false;
+            } else {
+                audio.play().then(() => {
+                    musicIcon.innerText = 'music_note';
+                    musicIcon.classList.add('animate-spin');
+                    equalizer.classList.remove('hidden');
+                    isPlaying = true;
+                }).catch(e => console.log("Aguardando interação do usuário..."));
+            }
+        }
+
+        // Tenta tocar no primeiro clique em qualquer lugar (Regra dos navegadores)
+        document.body.addEventListener('click', function() {
+            if (!isPlaying) { toggleMusic(); }
+        }, { once: true });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -1219,4 +1272,5 @@
     </script>
 </body>
 </html>
+
 
