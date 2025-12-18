@@ -68,7 +68,14 @@
         ::-webkit-scrollbar-track { background: #0a0a0a; }
         ::-webkit-scrollbar-thumb { background: #B8860B; border-radius: 5px; }
         
-        .fade-in-section { /* Mantido simples */ }
+        /* Animations */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, visibility;
+        }
+        .fade-in-section.is-visible { opacity: 1; transform: none; }
 
         .card-hover:hover {
             transform: translateY(-5px);
@@ -77,6 +84,35 @@
         
         .gold-glow-text {
             text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+        }
+
+        /* Countdown specific styles */
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #B8860B;
+            border-radius: 8px;
+            padding: 1rem;
+            min-width: 80px;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.15);
+        }
+        .countdown-number {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        .countdown-label {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 0.75rem;
+            color: #B8860B;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 0.25rem;
         }
 
         /* Form styling */
@@ -151,6 +187,22 @@
             transform: none;
             border-color: #444;
         }
+        .glass-shine {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
+        }
+        .glass-shine-2 {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.4);
+        }
         
         /* Floating Names Container */
         #floating-names-container {
@@ -169,18 +221,6 @@
             text-shadow: 0 0 5px rgba(0,0,0,0.8);
             white-space: nowrap;
         }
-
-        /* ESTILOS EXTRAS DO PANTHEOM */
-        .pantheom-card {
-            transition: all 0.4s ease;
-        }
-        .pantheom-card:hover {
-            transform: translateY(-10px) scale(1.02);
-        }
-        .leader-img-container {
-            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-        }
     </style>
 </head>
 <body class="bg-bedrock text-gray-200 font-body overflow-x-hidden selection:bg-gold selection:text-black">
@@ -194,11 +234,12 @@
             <div class="hidden md:flex gap-6 text-sm font-semibold tracking-widest text-gray-400">
                 <a href="#introducao" class="hover:text-gold transition-colors">GUIA</a>
                 <a href="#ciclo" class="hover:text-gold transition-colors">HORÁRIOS</a>
-                <a href="#pantheom" class="hover:text-gold transition-colors text-gold">LÍDERES</a>
+                <a href="#eleicao" class="hover:text-gold transition-colors text-gold">ELEIÇÃO</a>
                 <a href="#clas" class="hover:text-gold transition-colors">CLÃS</a>
                 <a href="#economia" class="hover:text-gold transition-colors">ECONOMIA</a>
                 <a href="#registro" class="hover:text-gold transition-colors">REGISTRO</a>
                 <a href="#saga" class="hover:text-gold transition-colors">SAGA</a>
+                <a href="#leis" class="hover:text-gold transition-colors">LEIS</a>
                 <a href="#tesouro" class="text-gold hover:text-white transition-colors border border-gold/30 px-2 py-1 rounded bg-gold/10">TESOURO</a>
             </div>
         </div>
@@ -214,6 +255,12 @@
         
         <div class="relative z-10 text-center px-4 max-w-4xl fade-in-section">
             
+            <div class="absolute top-[-80px] left-1/2 transform -translate-x-1/2 bg-black/70 border border-gold/30 px-6 py-2 rounded-full flex items-center gap-3 shadow-[0_0_15px_rgba(255,215,0,0.2)] animate-float w-max">
+                <span class="material-symbols-outlined text-gold">groups</span>
+                <span class="text-xs font-bold uppercase tracking-widest text-gray-300">Guerreiros Convocados:</span>
+                <span id="participant-count" class="text-xl font-heading font-bold text-gold">0</span>
+            </div>
+
             <div class="mb-4 inline-block px-4 py-1 border border-gold/50 rounded-full bg-black/50 backdrop-blur-sm">
                 <span class="text-gold text-xs font-bold tracking-[0.3em] uppercase">Saga: A Titanomaquia</span>
             </div>
@@ -224,24 +271,32 @@
                 "Tebas olha para baixo, entediado com a paz. Ele exige glória. Ele exige sangue. Ele exige um Campeão."
             </p>
 
-            <div class="mb-12 flex flex-col items-center gap-8">
-                <div class="text-center p-6 bg-black/40 rounded-xl border border-gold/30 backdrop-blur-md shadow-[0_0_30px_rgba(255,215,0,0.1)] hover:scale-105 transition-transform duration-500 cursor-default">
-                    <p class="text-gold text-sm uppercase tracking-[0.2em] mb-2 font-bold flex items-center justify-center gap-2">
-                        <span class="material-symbols-outlined text-sm animate-pulse">history_edu</span> Era da Guerra
-                    </p>
-                    <div class="flex items-baseline justify-center gap-3">
-                        <span class="font-heading font-black text-4xl text-stone-500 mr-2">DIA</span>
-                        <span id="server-days" class="font-heading font-black text-7xl text-white drop-shadow-[0_0_20px_rgba(255,215,0,0.6)]">0</span>
+            <div class="mb-10">
+                <p class="text-gold text-sm uppercase tracking-[0.2em] mb-4 font-bold">A Guerra Começa Em:</p>
+                <div class="flex justify-center gap-4 flex-wrap">
+                    <div class="countdown-item">
+                        <span id="days" class="countdown-number">00</span>
+                        <span class="countdown-label">Dias</span>
                     </div>
-                    <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-2">Desde 15 Dez 2025</p>
+                    <div class="countdown-item">
+                        <span id="hours" class="countdown-number">00</span>
+                        <span class="countdown-label">Horas</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span id="minutes" class="countdown-number">00</span>
+                        <span class="countdown-label">Min</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span id="seconds" class="countdown-number">00</span>
+                        <span class="countdown-label">Seg</span>
+                    </div>
                 </div>
-
-                <div class="flex items-center gap-3 bg-obsidian/80 border border-stone-700 px-6 py-2 rounded-full hover:border-gold/50 transition-all cursor-default">
-                    <span class="material-symbols-outlined text-gold text-sm">groups</span>
-                    <span class="text-xs font-bold uppercase tracking-widest text-gray-400">Guerreiros Convocados:</span>
-                    <span id="participant-count" class="text-lg font-heading font-bold text-white">0</span>
-                </div>
+                 <p class="text-gray-400 text-xs mt-4 uppercase tracking-widest">15 de Dezembro - O Dia do Juízo</p>
             </div>
+
+            <button onclick="openJoinModal()" class="mb-8 px-8 py-4 bg-gradient-to-r from-gold to-yellow-600 text-black font-heading font-black text-xl uppercase tracking-widest hover:scale-105 transition-transform duration-300 shadow-[0_0_30px_rgba(255,215,0,0.4)] rounded border border-yellow-200">
+                Quero Participar
+            </button>
 
             <div class="block">
                 <a href="#introducao" class="group relative inline-flex items-center gap-2 px-6 py-3 bg-transparent border border-stone-600 text-gray-400 font-bold uppercase tracking-widest text-xs hover:bg-white/5 hover:text-white hover:border-white transition-all duration-300">
@@ -252,51 +307,6 @@
         </div>
     </header>
 
-<audio id="bg-music" loop>
-        <source src="tema.mp3" type="audio/mpeg"> </audio>
-
-    <div id="music-controls" class="fixed bottom-6 left-6 z-50 flex items-center gap-3 transition-all duration-500 opacity-50 hover:opacity-100">
-        <button onclick="toggleMusic()" class="w-12 h-12 rounded-full bg-black/80 border-2 border-gold text-gold flex items-center justify-center shadow-[0_0_15px_rgba(255,215,0,0.3)] hover:scale-110 hover:bg-gold hover:text-black transition-all group">
-            <span id="music-icon" class="material-symbols-outlined animate-pulse-slow">music_off</span>
-        </button>
-        <div id="equalizer" class="hidden h-6 flex gap-1 items-end">
-            <div class="w-1 bg-gold animate-[bounce_1s_infinite] h-3"></div>
-            <div class="w-1 bg-gold animate-[bounce_1.2s_infinite] h-5"></div>
-            <div class="w-1 bg-gold animate-[bounce_0.8s_infinite] h-2"></div>
-            <div class="w-1 bg-gold animate-[bounce_1.5s_infinite] h-4"></div>
-        </div>
-    </div>
-
-    <script>
-        const audio = document.getElementById('bg-music');
-        const musicIcon = document.getElementById('music-icon');
-        const equalizer = document.getElementById('equalizer');
-        let isPlaying = false;
-
-        audio.volume = 0.4; // Volume inicial (40%)
-
-        function toggleMusic() {
-            if (isPlaying) {
-                audio.pause();
-                musicIcon.innerText = 'music_off';
-                musicIcon.classList.remove('animate-spin');
-                equalizer.classList.add('hidden');
-                isPlaying = false;
-            } else {
-                audio.play().then(() => {
-                    musicIcon.innerText = 'music_note';
-                    musicIcon.classList.add('animate-spin');
-                    equalizer.classList.remove('hidden');
-                    isPlaying = true;
-                }).catch(e => console.log("Aguardando interação do usuário..."));
-            }
-        }
-
-        // Tenta tocar no primeiro clique em qualquer lugar (Regra dos navegadores)
-        document.body.addEventListener('click', function() {
-            if (!isPlaying) { toggleMusic(); }
-        }, { once: true });
-    </script>
     <div id="join-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="closeJoinModal()"></div>
         <div class="relative bg-stone-900 border-2 border-gold p-8 rounded-lg max-w-md w-full shadow-[0_0_50px_rgba(255,215,0,0.2)] animate-[pulse_0.2s_ease-out]">
@@ -425,99 +435,84 @@
         </div>
     </section>
 
-   <section id="pantheom" class="py-24 bg-stone-900 border-b border-stone-800 fade-in-section relative">
+    <section id="eleicao" class="py-20 bg-stone-900 border-b border-stone-800 fade-in-section relative">
          <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/black-scales.png')] opacity-20"></div>
          <div class="max-w-7xl mx-auto px-4 relative z-10">
-             
              <div class="text-center mb-16">
-                <span class="material-symbols-outlined text-6xl text-gold mb-4 drop-shadow-[0_0_15px_rgba(255,215,0,0.8)]">crown</span>
-                <h2 class="text-4xl font-heading text-white mb-4">Pantheom dos Líderes</h2>
-                <div class="h-1 w-32 bg-gold mx-auto box-shadow-[0_0_10px_gold]"></div>
-                <p class="mt-4 text-gray-400">Os Quatro Pilares que sustentarão o destino da Titanomaquia.</p>
+                <span class="material-symbols-outlined text-6xl text-purple-500 mb-4">how_to_vote</span>
+                <h2 class="text-4xl font-heading text-white mb-4">A Ascensão dos Reis</h2>
+                <div class="h-1 w-24 bg-purple-500 mx-auto"></div>
+                <p class="mt-4 text-gray-400">O trono não é dado, é conquistado pelo povo. Escolha os 4 pilares de Tebas.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                
-                <div class="pantheom-card bg-obsidian border-2 border-red-600 rounded-lg overflow-hidden relative shadow-[0_0_25px_rgba(220,38,38,0.2)] hover:shadow-[0_0_40px_rgba(220,38,38,0.5)]">
-                    <div class="absolute top-0 right-0 p-2 z-20">
-                         <span class="bg-red-700 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Clã Vermelho</span>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-1 bg-obsidian border border-purple-500/30 p-6 rounded-lg shadow-lg h-fit sticky top-24">
+                    <h3 class="text-xl font-heading text-purple-400 mb-4">Sua Voz</h3>
+                    
+                    <div id="election-status-box" class="mb-6 p-3 bg-black/40 rounded border border-stone-700 text-center text-sm">
+                        Status: <span id="election-status-text" class="text-white font-bold">Carregando...</span>
                     </div>
-                    <div class="h-64 bg-gradient-to-b from-red-900/20 to-obsidian relative leader-img-container flex items-center justify-center">
+
+                    <div id="candidate-form-box" class="space-y-3 hidden">
+                        <label class="block text-gray-400 text-xs font-bold uppercase">Deseja Liderar?</label>
+                        <input type="text" id="new-candidate-name" class="input-mythic" placeholder="Seu Nick">
                         
-                        <img src="img/trojan.png" alt="Trojan" class="h-full object-contain relative z-10 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
+                        <label class="block text-gray-400 text-xs font-bold uppercase mt-2">Lema de Campanha:</label>
+                        <input type="text" id="candidate-slogan" class="input-mythic" placeholder="Ex: Ouro para todos!" maxlength="50">
                         
-                        <div class="absolute inset-0 border-b border-gold/30"></div>
+                        <label class="block text-gray-400 text-xs font-bold uppercase mt-2">Estratégia de Farm:</label>
+                        <select id="candidate-farm" class="input-mythic cursor-pointer">
+                            <option value="Ferro">Foco em Ferro</option>
+                            <option value="Ouro">Foco em Ouro</option>
+                            <option value="Raid">Foco em Raid</option>
+                            <option value="XP">Foco em XP</option>
+                        </select>
+
+                        <button id="btn-candidatar" onclick="registerCandidateForElection()" class="w-full py-3 bg-purple-900 hover:bg-purple-700 border border-purple-500 text-white font-bold uppercase tracking-widest text-sm transition-all mt-2">
+                            Candidatar-se
+                        </button>
                     </div>
-                    <div class="p-6 text-center relative z-10">
-                        <h3 class="text-2xl font-heading text-white font-bold mb-1">Trojan</h3>
-                        <div class="h-px w-12 bg-red-600 mx-auto mb-4"></div>
-                        <p class="text-sm text-gray-300 italic font-body">"Farm de ferro vem pro papai"</p>
-                        <div class="mt-4 pt-4 border-t border-red-900/30">
-                            <span class="material-symbols-outlined text-red-500">swords</span>
+
+                    <div id="voter-identity-box" class="hidden space-y-4">
+                        <div>
+                            <label class="block text-gray-400 text-xs font-bold mb-2 uppercase">Seu Identificador:</label>
+                            <input type="text" id="voter-name" class="input-mythic" placeholder="Seu Nick (Obrigatório)">
                         </div>
+                        
+                        <div class="bg-stone-800/50 p-4 rounded border border-stone-600 text-center">
+                             <span class="block text-xs text-gray-400 uppercase mb-1">Seus Escolhidos</span>
+                             <span class="text-2xl font-bold text-gold" id="selected-count-display">0</span>
+                             <span class="text-sm text-gray-400">/ 4</span>
+                        </div>
+
+                        <button id="confirm-vote-btn" onclick="submitMultiVote()" class="w-full py-3 bg-emerald-800 hover:bg-emerald-600 border border-emerald-500 text-white font-bold uppercase tracking-widest text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                            Confirmar Votos
+                        </button>
+                        
+                        <p class="text-[10px] text-gray-500 text-center italic mt-2">* Selecione exatamente 4 candidatos para validar.</p>
+
+                        <button onclick="revealResults()" class="w-full py-2 bg-stone-800 hover:bg-red-900 border border-stone-600 text-xs text-gray-400 hover:text-white font-bold uppercase tracking-widest transition-all mt-4">
+                            <span class="material-symbols-outlined align-middle text-sm mr-1">visibility</span> 
+                            Revelar Resultados (Admin)
+                        </button>
                     </div>
                 </div>
 
-                <div class="pantheom-card bg-obsidian border-2 border-stone-600 rounded-lg overflow-hidden relative shadow-[0_0_25px_rgba(100,100,100,0.2)] hover:shadow-[0_0_40px_rgba(255,255,255,0.3)]">
-                    <div class="absolute top-0 right-0 p-2 z-20">
-                         <span class="bg-stone-700 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider border border-white/20">Clã Preto</span>
+                <div class="lg:col-span-2 bg-stone-800/50 border border-stone-700 p-6 rounded-lg min-h-[400px]">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-heading text-white" id="candidates-title">Candidatos ao Trono</h3>
+                        <span class="text-sm text-gray-400" id="candidate-count-display">0 Candidatos</span>
                     </div>
-                    <div class="h-64 bg-gradient-to-b from-stone-800/20 to-obsidian relative leader-img-container flex items-center justify-center">
-                        
-                        <img src="img/lk.png" alt="LK" class="h-full object-contain relative z-10 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
-                        
-                        <div class="absolute inset-0 border-b border-gold/30"></div>
+
+                    <div id="acclamation-msg" class="hidden mb-4 p-4 bg-emerald-900/30 border border-emerald-500/30 rounded text-emerald-200 text-sm text-center">
+                        <span class="material-symbols-outlined align-middle mr-2">verified</span>
+                        Poucos candidatos. Estes guerreiros assumirão o trono por Aclamação Automática se não houver oposição.
                     </div>
-                    <div class="p-6 text-center relative z-10">
-                        <h3 class="text-2xl font-heading text-white font-bold mb-1">LK</h3>
-                        <div class="h-px w-12 bg-stone-500 mx-auto mb-4"></div>
-                        <p class="text-sm text-gray-300 italic font-body">"O ouro e eu somos um só"</p>
-                        <div class="mt-4 pt-4 border-t border-stone-800/50">
-                            <span class="material-symbols-outlined text-stone-400">payments</span>
-                        </div>
+
+                    <div id="candidates-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="text-gray-500 italic col-span-2 text-center py-10">Carregando candidatos...</div>
                     </div>
                 </div>
-
-                <div class="pantheom-card bg-obsidian border-2 border-pink-500 rounded-lg overflow-hidden relative shadow-[0_0_25px_rgba(236,72,153,0.2)] hover:shadow-[0_0_40px_rgba(236,72,153,0.5)]">
-                    <div class="absolute top-0 right-0 p-2 z-20">
-                         <span class="bg-pink-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Clã Rosa</span>
-                    </div>
-                    <div class="h-64 bg-gradient-to-b from-pink-900/20 to-obsidian relative leader-img-container flex items-center justify-center">
-                        
-                        <img src="img/soupyer.png" alt="Soupyer" class="h-full object-contain relative z-10 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
-                        
-                        <div class="absolute inset-0 border-b border-gold/30"></div>
-                    </div>
-                    <div class="p-6 text-center relative z-10">
-                        <h3 class="text-2xl font-heading text-white font-bold mb-1">Soupyer</h3>
-                        <div class="h-px w-12 bg-pink-500 mx-auto mb-4"></div>
-                        <p class="text-sm text-gray-300 italic font-body">"A vida é uma dádiva que eu preservarei"</p>
-                        <div class="mt-4 pt-4 border-t border-pink-900/30">
-                            <span class="material-symbols-outlined text-pink-400">favorite</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pantheom-card bg-obsidian border-2 border-blue-600 rounded-lg overflow-hidden relative shadow-[0_0_25px_rgba(37,99,235,0.2)] hover:shadow-[0_0_40px_rgba(37,99,235,0.5)]">
-                    <div class="absolute top-0 right-0 p-2 z-20">
-                         <span class="bg-blue-700 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Clã Azul</span>
-                    </div>
-                    <div class="h-64 bg-gradient-to-b from-blue-900/20 to-obsidian relative leader-img-container flex items-center justify-center">
-                        
-                        <img src="img/mattkk.png" alt="Mattkk" class="h-full object-contain relative z-10 drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
-                        
-                        <div class="absolute inset-0 border-b border-gold/30"></div>
-                    </div>
-                    <div class="p-6 text-center relative z-10">
-                        <h3 class="text-2xl font-heading text-white font-bold mb-1">Mattkk</h3>
-                        <div class="h-px w-12 bg-blue-600 mx-auto mb-4"></div>
-                        <p class="text-sm text-gray-300 italic font-body">"O ferro ainda que frio, queima"</p>
-                        <div class="mt-4 pt-4 border-t border-blue-900/30">
-                            <span class="material-symbols-outlined text-blue-500">shield</span>
-                        </div>
-                    </div>
-                </div>
-
             </div>
          </div>
     </section>
@@ -617,7 +612,6 @@
                 <span class="material-symbols-outlined text-6xl text-stone-500 mb-4">lock</span>
                 <h3 class="text-2xl font-heading text-stone-400">Registro Bloqueado</h3>
                 <p class="text-gray-500 mt-2">O registro de clãs estará disponível somente após o fim da votação (15 de Dezembro) ou Decreto Real.</p>
-                <button onclick="revealResults()" class="mt-4 px-4 py-2 border border-stone-600 text-stone-500 hover:text-white hover:border-white text-xs uppercase font-bold rounded transition-all">Liberar Registro (Admin)</button>
             </div>
 
             <div id="registration-form-container" class="grid grid-cols-1 lg:grid-cols-2 gap-12 hidden">
@@ -764,7 +758,7 @@
                     <div class="absolute top-0 -left-3 md:-left-3 w-6 h-6 rounded-full bg-mythicblue border-4 border-stone-800"></div>
                     <div class="bg-obsidian border border-blue-900 rounded-lg overflow-hidden shadow-lg shadow-blue-900/20 card-hover transition-all">
                         <div class="relative h-40">
-                             <img src="img/elden_guardian.jpg" alt="Elder Guardian Titan" class="w-full h-full object-cover opacity-70">
+                             <img src="img/elder-guardian.jpg" alt="Elder Guardian Titan" class="w-full h-full object-cover opacity-70">
                              <div class="absolute inset-0 bg-blue-900/30"></div>
                         </div>
                         
@@ -791,7 +785,7 @@
                     <div class="absolute top-0 -left-3 md:left-auto md:-right-3 w-6 h-6 rounded-full bg-red-900 border-4 border-stone-800"></div>
                     <div class="bg-obsidian border border-red-900 rounded-lg overflow-hidden shadow-lg shadow-red-900/20 card-hover transition-all">
                         <div class="relative h-40">
-                             <img src="img/wither_boss.jpg" alt="Wither Titan" class="w-full h-full object-cover opacity-70">
+                             <img src="img/wither.jpg" alt="Wither Titan" class="w-full h-full object-cover opacity-70">
                              <div class="absolute inset-0 bg-red-900/30"></div>
                         </div>
 
@@ -818,7 +812,7 @@
                     <div class="absolute top-0 -left-3 md:-left-3 w-6 h-6 rounded-full bg-white border-4 border-stone-800"></div>
                     <div class="bg-obsidian border border-gray-600 rounded-lg overflow-hidden shadow-lg shadow-white/10 card-hover transition-all">
                          <div class="relative h-40">
-                             <img src="img/ender_dragon.jpg" alt="Ender Dragon Titan" class="w-full h-full object-cover opacity-70">
+                             <img src="img/ender-dragon-lightning.jpg" alt="Ender Dragon Titan" class="w-full h-full object-cover opacity-70">
                              <div class="absolute inset-0 bg-gray-900/30"></div>
                         </div>
 
@@ -845,7 +839,7 @@
                     <div class="absolute top-0 -left-3 md:left-auto md:-right-3 w-6 h-6 rounded-full bg-teal-900 border-4 border-stone-800"></div>
                     <div class="bg-obsidian border border-teal-900 rounded-lg overflow-hidden shadow-lg shadow-teal-900/20 card-hover transition-all">
                          <div class="relative h-40">
-                             <img src="img/warden_boss.jpg" alt="Warden Titan" class="w-full h-full object-cover opacity-70">
+                             <img src="img/warden-boss.jpg" alt="Warden Titan" class="w-full h-full object-cover opacity-70">
                              <div class="absolute inset-0 bg-teal-900/30"></div>
                         </div>
                         
@@ -1003,67 +997,311 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
-        // --- 1. CONFIGURAÇÃO E DADOS ---
+        // --- CONFIGURAÇÃO DO SUPABASE ---
         const supabaseUrl = 'https://tvaujvgnwpmuybnysmib.supabase.co'
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2YXVqdmdud3BtdXlibnlzbWliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ0NjUwNDAsImV4cCI6MjA4MDA0MTA0MH0.d01sDTQ7LDHfzGgMq9CzrzUkg9pIv0Wa49PK_3geHhk'
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey)
 
+        // --- GLOBAL STATE ---
         const state = {
             registeredClans: [],
             takenEconomies: new Set(),
             takenColors: new Set(),
             CLAN_LIMIT: 4,
             MEMBER_LIMIT: 6,
+            candidates: [],
             participants: [],
+            currentSelections: new Set(), 
+            resultsRevealed: false,
             registrationLocked: true
         };
 
-        const clanThemes = {
-            "Imperio": { symbol: "crown", leader: "Imperador", coleader: "General", member: "Soldado" },
-            "Reino": { symbol: "shield", leader: "Rei", coleader: "Mão do Rei", member: "Cavaleiro" },
-            "Ordem": { symbol: "balance", leader: "Grão-Mestre", coleader: "Senhor", member: "Paladino" },
-            "Horda": { symbol: "skull", leader: "Chefe de Guerra", coleader: "Campeão", member: "Saqueador" },
-            "Sindicato": { symbol: "visibility", leader: "Patriarca", coleader: "Conselheiro", member: "Agente" }
-        };
-
-        const glassColors = [
-            {name: 'Branco', hex: '#FFFFFF'}, {name: 'Cinza Claro', hex: '#999999'}, {name: 'Cinza', hex: '#4c4c4c'},
-            {name: 'Preto', hex: '#191919'}, {name: 'Marrom', hex: '#664c33'}, {name: 'Vermelho', hex: '#993333'},
-            {name: 'Laranja', hex: '#d87f33'}, {name: 'Amarelo', hex: '#e5e533'}, {name: 'Verde Lima', hex: '#7fcc19'},
-            {name: 'Verde', hex: '#667f33'}, {name: 'Ciano', hex: '#4c7f99'}, {name: 'Azul Claro', hex: '#6699d8'},
-            {name: 'Azul', hex: '#334cb2'}, {name: 'Roxo', hex: '#7f3fb2'}, {name: 'Magenta', hex: '#b24cd8'},
-            {name: 'Rosa', hex: '#f27fa5'}
-        ];
-
-        // --- 2. PARTICIPANTES (JOIN) ---
+        // --- 0. PARTICIPANT LOGIC ---
         async function fetchParticipants() {
-            const { data, error } = await supabase.from('participants').select('nickname');
+            const { data, error } = await supabase
+                .from('participants')
+                .select('nickname');
+            
             if(error) { console.error("Erro participantes:", error); return; }
+            
             state.participants = data ? data.map(p => p.nickname) : [];
             const countEl = document.getElementById('participant-count');
             if(countEl) countEl.innerText = state.participants.length;
-            if(state.participants.length > 0) startFloatingNames();
+            
+            if(state.participants.length > 0) {
+                startFloatingNames();
+            }
         }
 
         async function confirmParticipation() {
             const nickname = document.getElementById('player-nickname').value.trim();
             const realname = document.getElementById('player-realname').value.trim();
+            
             if(!nickname) { alert("Por favor, insira seu Nickname."); return; }
+            
             const btn = document.getElementById('btn-confirm-join');
-            btn.innerText = "Enviando..."; btn.disabled = true;
-            const { error } = await supabase.from('participants').insert([{ nickname, realname }]);
-            if(error) { alert("Erro: " + error.message); } 
-            else { 
-                alert("Sua presença foi confirmada, guerreiro!"); 
-                closeJoinModal(); 
-                state.participants.push(nickname); 
-                document.getElementById('participant-count').innerText = state.participants.length; 
-                createFloatingName(nickname); 
+            btn.innerText = "Enviando...";
+            btn.disabled = true;
+
+            const { error } = await supabase
+                .from('participants')
+                .insert([{ nickname, realname }]);
+
+            if(error) {
+                alert("Erro: " + error.message);
+            } else {
+                alert("Sua presença foi confirmada, guerreiro!");
+                closeJoinModal();
+                state.participants.push(nickname);
+                document.getElementById('participant-count').innerText = state.participants.length;
+                createFloatingName(nickname);
             }
-            btn.innerText = "Confirmar Presença"; btn.disabled = false;
+            btn.innerText = "Confirmar Presença";
+            btn.disabled = false;
         }
 
-        // --- 3. CLÃS (REGISTRO E VISUALIZAÇÃO) ---
+        function startFloatingNames() {
+             const container = document.getElementById('floating-names-container');
+             state.participants.forEach((name, i) => {
+                 setTimeout(() => createFloatingName(name), i * 800); 
+             });
+             
+             setInterval(() => {
+                 if(state.participants.length > 0) {
+                     const randomName = state.participants[Math.floor(Math.random() * state.participants.length)];
+                     createFloatingName(randomName);
+                 }
+             }, 2500);
+        }
+
+        function createFloatingName(name) {
+            const container = document.getElementById('floating-names-container');
+            const el = document.createElement('div');
+            el.innerText = name;
+            el.className = 'floating-name animate-float-up';
+            el.style.left = `${Math.floor(Math.random() * 90) + 5}%`;
+            el.style.fontSize = `${(Math.random() * 0.5) + 0.8}rem`;
+            el.style.animationDuration = `${Math.floor(Math.random() * 10) + 10}s`;
+            container.appendChild(el);
+            setTimeout(() => { el.remove(); }, 20000);
+        }
+
+        function openJoinModal() { document.getElementById('join-modal').classList.remove('hidden'); }
+        function closeJoinModal() { document.getElementById('join-modal').classList.add('hidden'); }
+
+        // --- 1. UPLOAD IMAGE LOGIC ---
+        function previewBanner(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('banner-preview-img');
+                    const area = document.getElementById('banner-preview-area');
+                    img.src = e.target.result;
+                    img.classList.remove('hidden');
+                    area.classList.add('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function uploadBannerImage(file) {
+            const fileExt = file.name.split('.').pop();
+            const fileName = `banner_${Date.now()}.${fileExt}`; 
+            const filePath = `${fileName}`;
+
+            const { data, error } = await supabase.storage
+                .from('clan-banners') 
+                .upload(filePath, file);
+
+            if (error) throw error;
+
+            const { data: publicUrlData } = supabase.storage
+                .from('clan-banners')
+                .getPublicUrl(filePath);
+
+            return publicUrlData.publicUrl;
+        }
+
+        // --- ELECTION LOGIC ---
+        async function fetchCandidates() {
+            const { data, error } = await supabase
+                .from('candidates')
+                .select('*')
+                .order('votes', { ascending: false });
+
+            if (error) {
+                console.error("Erro candidatos:", error);
+                renderElectionUI(); // Force UI update anyway
+                return;
+            }
+
+            state.candidates = data || [];
+            renderElectionUI();
+        }
+
+        async function registerCandidateForElection() {
+            const name = document.getElementById('new-candidate-name').value.trim();
+            const slogan = document.getElementById('candidate-slogan').value.trim();
+            const strategy = document.getElementById('candidate-farm').value;
+            
+            if (!name || !slogan) { alert("Preencha todos os campos!"); return; }
+            
+            if(state.candidates.some(c => c.name.toLowerCase() === name.toLowerCase())) {
+                alert("Este candidato já está inscrito."); return;
+            }
+
+            const btn = document.getElementById('btn-candidatar');
+            btn.innerText = "Enviando...";
+            btn.disabled = true;
+
+            const { error } = await supabase
+                .from('candidates')
+                .insert([{ name, slogan, strategy }]);
+
+            if (error) {
+                alert("Erro: " + error.message);
+            } else {
+                alert("Candidatura registrada!");
+                document.getElementById('new-candidate-name').value = '';
+                document.getElementById('candidate-slogan').value = '';
+                fetchCandidates();
+            }
+            btn.innerText = "Candidatar-se";
+            btn.disabled = false;
+        }
+
+        async function submitMultiVote() {
+            const voterName = document.getElementById('voter-name').value.trim();
+            if (!voterName) { alert("Identifique-se para votar."); return; }
+            if (state.currentSelections.size !== 4) { alert("Selecione 4 candidatos."); return; }
+
+            const confirmBtn = document.getElementById('confirm-vote-btn');
+            confirmBtn.innerText = "Computando...";
+            confirmBtn.disabled = true;
+
+            const selectedIds = Array.from(state.currentSelections);
+            const votesToInsert = selectedIds.map(candId => ({ voter_name: voterName, candidate_id: candId }));
+
+            const { error } = await supabase.from('votes').insert(votesToInsert);
+            if (error) { alert("Erro: " + error.message); confirmBtn.innerText = "Confirmar"; confirmBtn.disabled = false; return; }
+
+            for (let id of selectedIds) {
+                const cand = state.candidates.find(c => c.id === id);
+                await supabase.from('candidates').update({ votes: cand.votes + 1 }).eq('id', id);
+            }
+
+            alert("Votos confirmados!");
+            state.currentSelections.clear();
+            confirmBtn.innerText = "Confirmar Votos";
+            confirmBtn.disabled = false;
+            fetchCandidates();
+        }
+
+        function revealResults() {
+             const password = prompt("Senha de Admin para revelar resultados:");
+             if(password === "TEBAS") {
+                 state.resultsRevealed = true;
+                 renderElectionUI();
+                 toggleRegistrationLock(true);
+             } else {
+                 alert("Acesso negado.");
+             }
+        }
+        
+        function toggleRegistrationLock(isOpen) {
+            const lockMsg = document.getElementById('registration-locked-msg');
+            const formContainer = document.getElementById('registration-form-container');
+            state.registrationLocked = !isOpen;
+            if(isOpen) {
+                lockMsg.classList.add('hidden');
+                formContainer.classList.remove('hidden');
+                formContainer.classList.add('grid'); 
+            } else {
+                lockMsg.classList.remove('hidden');
+                formContainer.classList.add('hidden');
+                formContainer.classList.remove('grid');
+            }
+        }
+
+        function renderElectionUI() {
+            const listEl = document.getElementById('candidates-list');
+            const countEl = document.getElementById('candidate-count-display');
+            const statusText = document.getElementById('election-status-text');
+            const acclamationMsg = document.getElementById('acclamation-msg');
+            const voterBox = document.getElementById('voter-identity-box');
+            const candidateFormBox = document.getElementById('candidate-form-box');
+            const selectedCountDisplay = document.getElementById('selected-count-display');
+            const confirmBtn = document.getElementById('confirm-vote-btn');
+
+            const totalCandidates = state.candidates.length;
+            
+            if(selectedCountDisplay) {
+                selectedCountDisplay.innerText = state.currentSelections.size;
+                if(state.currentSelections.size === 4) {
+                    selectedCountDisplay.classList.remove('text-gold');
+                    selectedCountDisplay.classList.add('text-emerald-400');
+                    confirmBtn.disabled = false;
+                    confirmBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                } else {
+                    selectedCountDisplay.classList.add('text-gold');
+                    selectedCountDisplay.classList.remove('text-emerald-400');
+                    confirmBtn.disabled = true;
+                    confirmBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+            }
+
+            if (state.resultsRevealed) {
+                // Results logic...
+                return;
+            }
+
+            countEl.innerText = `${totalCandidates} Candidatos`;
+            const isVotingPhase = totalCandidates > 4;
+            
+            if(isVotingPhase) {
+                statusText.innerText = "VOTAÇÃO ABERTA";
+                statusText.className = "text-purple-400 font-bold animate-pulse";
+                acclamationMsg.classList.add('hidden');
+                voterBox.classList.remove('hidden');
+                candidateFormBox.classList.add('hidden'); 
+            } else {
+                statusText.innerText = "Inscrições Abertas";
+                statusText.className = "text-white font-bold";
+                acclamationMsg.classList.remove('hidden');
+                voterBox.classList.add('hidden');
+                candidateFormBox.classList.remove('hidden');
+            }
+
+            listEl.innerHTML = '';
+            listEl.className = "grid grid-cols-1 md:grid-cols-2 gap-4";
+
+            if(state.candidates.length === 0) {
+                 listEl.innerHTML = '<div class="text-gray-500 italic col-span-2 text-center py-10">Nenhum candidato se apresentou ainda.</div>';
+                 return;
+            }
+
+            state.candidates.forEach((c) => {
+                const isSelected = state.currentSelections.has(c.id);
+                const item = document.createElement('div');
+                let classes = isVotingPhase ? `cursor-pointer hover:border-purple-500 ${isSelected ? 'border-emerald-500 bg-emerald-900/10' : 'border-stone-700'}` : 'border-stone-700';
+                item.className = `bg-stone-900 border p-4 rounded relative transition-all ${classes}`;
+                if(isVotingPhase) item.onclick = () => toggleCandidateSelection(c.id);
+                item.innerHTML = `<div class="flex justify-between"><h4 class="font-bold text-white">${c.name}</h4></div><p class="text-sm text-gray-400 italic">"${c.slogan}"</p>`;
+                listEl.appendChild(item);
+            });
+        }
+
+        function toggleCandidateSelection(id) {
+            if(state.currentSelections.has(id)) state.currentSelections.delete(id);
+            else {
+                if(state.currentSelections.size >= 4) { alert("Max 4."); return; }
+                state.currentSelections.add(id);
+            }
+            renderElectionUI();
+        }
+
+        // --- DATABASE LOGIC (CLANS) ---
         async function fetchClans() {
             const { data } = await supabase.from('clans').select('*').order('created_at', { ascending: true });
             state.registeredClans = []; state.takenEconomies.clear(); state.takenColors.clear();
@@ -1078,15 +1316,13 @@
                     updateEconomyUi(c.economy_type);
                 });
             } else {
-                 document.getElementById('clan-list').innerHTML = `<div class="text-center text-gray-500 mt-20 italic">Nenhum clã registrado ainda.<br>Seja o primeiro a marcar território.</div>`;
+                 document.getElementById('clan-list').innerHTML = `<div class="text-center text-gray-500 mt-20 italic">Nenhum clã.</div>`;
             }
             renderGlassPicker();
-            renderEconomyGrid();
+            updateClanCountUi();
             if(state.registeredClans.length >= 4) document.getElementById('limit-reached-msg').classList.remove('hidden');
-            
-            document.getElementById('clan-count').innerText = `(${state.registeredClans.length}/4)`;
         }
-
+        
         async function registerClan() {
              const name = document.getElementById('clan-name').value;
              const motto = document.getElementById('clan-motto').value;
@@ -1112,105 +1348,42 @@
              } catch(e) { alert(e.message); }
              btn.disabled = false;
         }
-
-        function updateClanListUi(name, motto, color, themeKey, leader, coleader, membersStr, economyName, id, bannerUrl) {
-             const list = document.getElementById('clan-list');
-             const div = document.createElement('div');
-             
-             let bgStyle = bannerUrl ? `background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('${bannerUrl}'); background-size: cover;` : '';
-             
-             div.className = "bg-obsidian border border-stone-700 p-6 rounded-lg relative overflow-hidden group card-hover mb-4";
-             div.style.borderLeft = `4px solid ${color}`;
-             if(bannerUrl) div.style = `border-left: 4px solid ${color}; ${bgStyle}`;
-
-             div.innerHTML = `
-                <div class="flex justify-between items-start mb-2">
-                    <h3 class="text-xl font-bold text-white" style="color: ${color}">${name}</h3>
-                    <button onclick="deleteClan(${id})" class="text-gray-600 hover:text-red-500"><span class="material-symbols-outlined text-sm">delete</span></button>
-                </div>
-                <p class="text-gray-400 italic text-sm mb-4">"${motto}"</p>
-                
-                <div class="text-sm text-gray-300 space-y-1">
-                    <p><span class="text-gold font-bold">Líder:</span> ${leader}</p>
-                    ${coleader ? `<p><span class="text-gray-400 font-bold">Co-Líder:</span> ${coleader}</p>` : ''}
-                    <p><span class="text-gray-500 font-bold">Membros:</span> ${membersStr}</p>
-                </div>
-                
-                <div class="mt-4 pt-4 border-t border-stone-800 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-emerald-500 text-sm">savings</span>
-                    <span class="text-xs text-emerald-400 uppercase tracking-wider">${economyName}</span>
-                </div>
-             `;
-             list.prepend(div);
-        }
-
-        // --- AUXILIARES E INTERFACE ---
-        function revealResults() { if(prompt("Senha:") === "TEBAS") { toggleRegistrationLock(true); } }
-        
-        function toggleRegistrationLock(isOpen) {
-             state.registrationLocked = !isOpen;
-             if(isOpen) { document.getElementById('registration-locked-msg').classList.add('hidden'); document.getElementById('registration-form-container').classList.remove('hidden'); document.getElementById('registration-form-container').classList.add('grid'); }
-             else { document.getElementById('registration-locked-msg').classList.remove('hidden'); document.getElementById('registration-form-container').classList.add('hidden'); }
-        }
         
         async function deleteClan(id) { if(prompt("Senha:") === "TEBAS") { await supabase.from('clans').delete().eq('id', id); fetchClans(); } }
         
-        async function uploadBannerImage(file) {
-            const fileExt = file.name.split('.').pop();
-            const fileName = `banner_${Date.now()}.${fileExt}`;
-            const { error } = await supabase.storage.from('clan-banners').upload(fileName, file);
-            if (error) throw error;
-            const { data } = supabase.storage.from('clan-banners').getPublicUrl(fileName);
-            return data.publicUrl;
+        function updateClanListUi(name, motto, color, themeKey, leader, coleader, membersStr, economyName, id, bannerUrl) {
+             const list = document.getElementById('clan-list');
+             const div = document.createElement('div');
+             let bg = bannerUrl ? `background-image: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.9)), url('${bannerUrl}'); background-size: cover;` : '';
+             div.className = "bg-stone-900 p-6 rounded border-l-4 relative overflow-hidden mb-4";
+             div.style.cssText = `border-color: ${color}; ${bg}`;
+             div.innerHTML = `<h3 class="text-2xl font-bold text-white relative z-10">${name}</h3><p class="text-gray-300 relative z-10">${motto}</p><button onclick="deleteClan(${id})" class="absolute top-2 right-2 text-red-500 z-20 bg-black/50 rounded p-1"><span class="material-symbols-outlined">delete</span></button>`;
+             list.prepend(div);
         }
 
-        // Setup Glass Picker & Economy Grid
-        function renderGlassPicker() {
-            const picker = document.getElementById('glass-picker');
-            if(!picker) return;
-            picker.innerHTML = glassColors.map(gc => {
-                const taken = state.takenColors.has(gc.hex);
-                return `<div class="glass-option ${taken ? 'disabled' : ''}" style="background-color: ${gc.hex};" onclick="${taken ? '' : `selectColor('${gc.hex}', '${gc.name}', this)`}" title="${gc.name}"></div>`;
-            }).join('');
-        }
-        function selectColor(hex, name, el) {
-            document.querySelectorAll('.glass-option').forEach(d => d.classList.remove('selected'));
-            el.classList.add('selected');
-            document.getElementById('clan-color').value = hex;
-            document.getElementById('selected-color-name').innerText = "Selecionado: " + name;
-        }
-        
-        function selectFarm(id) {
-            const maps = { 'iron': {name: 'Caminho do Aço', type: 'Ferro'}, 'gold': {name: 'Caminho da Riqueza', type: 'Ouro'}, 'raid': {name: 'Caminho da Vida', type: 'Raid'}, 'xp': {name: 'Caminho do Encanto', type: 'XP'} };
-            
-            const type = maps[id].type;
-            if(state.takenEconomies.has(type)) return;
-
-            const choice = maps[id];
-            document.getElementById('clan-economy-input').value = choice.name;
-            document.getElementById('clan-economy-type').value = choice.type;
-        }
-        
         function updateEconomyUi(type) { 
-             const map = {'Ferro':'opt-iron', 'Ouro':'opt-gold', 'Raid':'opt-raid', 'XP':'opt-xp'};
-             const el = document.getElementById(map[type]);
+             const el = document.getElementById('opt-' + type);
              if(el) { el.classList.add('farm-taken'); el.onclick = null; }
         }
-
+        
+        function copyColorCode() { 
+            navigator.clipboard.writeText(document.getElementById('clan-color').value);
+        }
+        function updateClanCountUi() { document.getElementById('clan-count').innerText = `(${state.registeredClans.length}/4)`; }
+        function updateThemeInfo() { /* ... */ }
+        function validateMembers() { return true; }
+        
         function renderEconomyGrid() {
              const grid = document.getElementById('economy-grid');
              if(!grid) return;
              const opts = [
-                 {id:'iron', name:'Caminho do Aço', desc:'Ferro Infinito', icon:'shield', img:'img/farm-de-ferro.jpg', type:'Ferro'},
-                 {id:'gold', name:'Caminho da Riqueza', desc:'Ouro Infinito', icon:'payments', img:'img/farm-de-ouro.jpg', type:'Ouro'},
-                 {id:'raid', name:'Caminho da Vida', desc:'Totens Infinitos', icon:'local_fire_department', img:'img/raid-farm.jpg', type:'Raid'},
-                 {id:'xp', name:'Caminho do Encanto', desc:'XP Massivo', icon:'bolt', img:'img/farm-de-xp.jpg', type:'XP'}
+                 {id:'iron', name:'Caminho do Aço', desc:'Ferro Infinito', icon:'shield', img:'img/farm-de-ferro.jpg'},
+                 {id:'gold', name:'Caminho da Riqueza', desc:'Ouro Infinito', icon:'payments', img:'img/farm-de-ouro.jpg'},
+                 {id:'raid', name:'Caminho da Vida', desc:'Totens Infinitos', icon:'local_fire_department', img:'img/raid-farm.jpg'},
+                 {id:'xp', name:'Caminho do Encanto', desc:'XP Massivo', icon:'bolt', img:'img/farm-de-xp.jpg'}
              ];
-             
-             grid.innerHTML = opts.map(o => {
-                const taken = state.takenEconomies.has(o.type);
-                return `
-                <div id="opt-${o.id}" class="bg-obsidian border border-stone-600 p-6 rounded-lg cursor-pointer relative overflow-hidden group h-full ${taken ? 'farm-taken' : ''}" onclick="selectFarm('${o.id}')">
+             grid.innerHTML = opts.map(o => `
+                <div id="opt-${o.id}" class="bg-obsidian border border-stone-600 p-6 rounded-lg cursor-pointer relative overflow-hidden group h-full" onclick="selectFarm('${o.id}')">
                     <div class="absolute inset-0 z-0"><img src="${o.img}" class="w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity"></div>
                     <div class="relative z-10 text-center">
                         <span class="material-symbols-outlined text-5xl mb-2 text-white">${o.icon}</span>
@@ -1218,40 +1391,10 @@
                         <p class="text-xs text-gray-400 uppercase">${o.desc}</p>
                     </div>
                 </div>
-             `}).join('');
+             `).join('');
         }
 
-        // Funções de UI (Modal, Tabs, Toggle)
-        function openJoinModal() { document.getElementById('join-modal').classList.remove('hidden'); }
-        function closeJoinModal() { document.getElementById('join-modal').classList.add('hidden'); }
-        function previewBanner(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = document.getElementById('banner-preview-img');
-                    document.getElementById('banner-preview-area').classList.add('hidden');
-                    img.src = e.target.result;
-                    img.classList.remove('hidden');
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-        function startFloatingNames() {
-             const container = document.getElementById('floating-names-container');
-             state.participants.forEach((name, i) => { setTimeout(() => createFloatingName(name), i * 800); });
-             setInterval(() => { if(state.participants.length > 0) { const randomName = state.participants[Math.floor(Math.random() * state.participants.length)]; createFloatingName(randomName); } }, 2500);
-        }
-        function createFloatingName(name) {
-            const container = document.getElementById('floating-names-container');
-            const el = document.createElement('div');
-            el.innerText = name; el.className = 'floating-name animate-float-up';
-            el.style.left = `${Math.floor(Math.random() * 90) + 5}%`;
-            el.style.fontSize = `${(Math.random() * 0.5) + 0.8}rem`;
-            el.style.animationDuration = `${Math.floor(Math.random() * 10) + 10}s`;
-            container.appendChild(el);
-            setTimeout(() => { el.remove(); }, 20000);
-        }
+        // --- 4. War Mode Toggle ---
         let isPurgeMode = false;
         function toggleWarMode() {
              isPurgeMode = !isPurgeMode;
@@ -1264,61 +1407,77 @@
              const pvpText = document.getElementById('pvp-text');
              const baseText = document.getElementById('base-text');
              const statusText = document.getElementById('status-text');
+             const pvpIcon = document.getElementById('pvp-icon');
+             const baseIcon = document.getElementById('base-icon');
 
              if (isPurgeMode) {
                  btn.classList.replace('bg-gray-700', 'bg-red-900');
                  circle.classList.add('translate-x-10');
-                 icon.innerText = 'skull'; icon.classList.add('text-red-600'); icon.classList.remove('text-black');
+                 icon.innerText = 'skull';
+                 icon.classList.add('text-red-600');
+                 icon.classList.remove('text-black');
                  if(bg) bg.classList.replace('bg-emerald-900', 'bg-red-900');
                  if(container) container.classList.replace('border-stone-600', 'border-red-600');
-                 if(title) { title.innerText = "O Expurgo (Sáb/Dom/Feriados)"; title.classList.replace('text-emerald-400', 'text-red-500'); }
+                 if(title) {
+                     title.innerText = "O Expurgo (Sáb/Dom/Feriados)";
+                     title.classList.replace('text-emerald-400', 'text-red-500');
+                 }
                  if(pvpText) pvpText.innerHTML = "<span class='text-red-400 font-bold'>LIBERADO 24H.</span> O mapa inteiro é uma arena.";
                  if(baseText) baseText.innerHTML = "SAQUE PERMITIDO (Baús/Fornalhas). <br><span class='text-xs text-red-400'>Lei da Destruição: Quebre o necessário para entrar. Proibido demolir por maldade.</span>";
-                 if(statusText) { statusText.innerText = "🩸 CAOS E SAQUE"; statusText.classList.replace('text-emerald-500', 'text-red-500'); }
+                 if(baseIcon) baseIcon.innerText = 'meeting_room';
+                 if(baseIcon) baseIcon.classList.add('text-red-500');
+                 if(statusText) {
+                     statusText.innerText = "🩸 CAOS E SAQUE";
+                     statusText.classList.replace('text-emerald-500', 'text-red-500');
+                 }
              } else {
                  btn.classList.replace('bg-red-900', 'bg-gray-700');
                  circle.classList.remove('translate-x-10');
-                 icon.innerText = 'radio_button_unchecked'; icon.classList.remove('text-red-600'); icon.classList.add('text-black');
+                 icon.innerText = 'radio_button_unchecked';
+                 icon.classList.remove('text-red-600');
+                 icon.classList.add('text-black');
                  if(bg) bg.classList.replace('bg-red-900', 'bg-emerald-900');
                  if(container) container.classList.replace('border-red-600', 'border-stone-600');
-                 if(title) { title.innerText = "Segunda a Sexta"; title.classList.replace('text-red-500', 'text-emerald-400'); }
+                 if(title) {
+                     title.innerText = "Segunda a Sexta";
+                     title.classList.replace('text-red-500', 'text-emerald-400');
+                 }
                  if(pvpText) pvpText.innerText = "Permitido apenas durante a NOITE (no jogo). De dia, só duelos aceitos.";
+                 if(pvpIcon) pvpIcon.classList.remove('text-red-500');
                  if(baseText) baseText.innerText = "INTOCÁVEIS. Proibido invadir terreno inimigo.";
-                 if(statusText) { statusText.innerText = "🕊️ CONSTRUÇÃO E DIPLOMACIA"; statusText.classList.replace('text-red-500', 'text-emerald-500'); }
+                 if(baseIcon) baseIcon.innerText = 'fort';
+                 if(baseIcon) baseIcon.classList.remove('text-red-500');
+                 if(statusText) {
+                     statusText.innerText = "🕊️ CONSTRUÇÃO E DIPLOMACIA";
+                     statusText.classList.replace('text-red-500', 'text-emerald-500');
+                 }
              }
         }
-        
-        function updateServerUptime() {
-             const startDate = new Date('2025-12-15T18:00:00'); // Data de Inicio da Saga
-             const now = new Date();
-             const diff = now - startDate;
-             
-             let days = Math.floor(diff / (1000 * 60 * 60 * 24));
-             if (days < 0) days = 0; // Se acessarem antes da data, mostra 0
-             
-             const el = document.getElementById('server-days');
-             if(el) el.innerText = days;
-        }
 
-        function copyColorCode() { navigator.clipboard.writeText(document.getElementById('clan-color').value); document.getElementById('copy-feedback').classList.remove('opacity-0'); setTimeout(() => document.getElementById('copy-feedback').classList.add('opacity-0'), 2000); }
-        function updateThemeInfo() { /* Lógica de tema */ }
-
-        // Inicialização
+        // --- INIT ---
         document.addEventListener('DOMContentLoaded', () => {
-            fetchParticipants();
-            fetchClans();
-            updateServerUptime(); // Chama a nova função de dias
+            renderEconomyGrid();
+            renderGlassPicker();
             
-            // Popula selects
+            // Load Data from DB
+            fetchParticipants();
+            fetchCandidates();
+            fetchClans();
+            
+            // Misc
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            
             const themeSelect = document.getElementById('clan-theme');
-            if(themeSelect && themeSelect.options.length <= 1) {
+            if(themeSelect) {
                 Object.keys(clanThemes).forEach(key => {
                     const option = document.createElement('option');
                     option.value = key;
                     option.text = `${clanThemes[key].symbol} ${key}`;
                     themeSelect.appendChild(option);
                 });
-    </script>
+            }
         });
+    </script>
 </body>
 </html>
